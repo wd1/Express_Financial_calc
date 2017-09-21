@@ -1,0 +1,790 @@
+extends ../layout
+
+block content
+  script.
+    $(function() {
+      var financial_flag = false, not_financial_flag = false;
+      var checkedids = '#{checkedids}';
+      
+      var checkedids1 = '#{checkedids1}';
+      if(checkedids1 != '') {
+        checkedidsArr1 = checkedids1.split(',');
+        for(var i=0; i<checkedidsArr1.length; i++) {
+          var check1 = document.getElementById(checkedidsArr1[i]);
+          $(check1).attr('checked', true);
+          checkHandler1(check1);
+          getCheckedIDs1();
+        }
+        if(checkedids != '') {
+          checkedidsArr = checkedids.split(',');
+          for(var i=0; i<checkedidsArr.length; i++) {
+            var check = document.getElementById(checkedidsArr[i]);
+            $(check).attr('checked', true);
+            checkHandler(check);
+            getCheckedIDs();
+          }
+        }
+      }
+      $('#id18').val('#{keyword1}');
+      $('#id19').val('#{keyword2}');
+      $('#preliminary').attr('checked', '#{preliminary}'=='true');
+      
+      $('.popupBody input[type=checkbox]').change(function() {
+        console.log('ssss');
+        checkHandler1(this);
+        getCheckedIDs1();
+      });
+
+      function updateIntangible() {
+        console.log(not_financial_flag +"," + financial_flag);
+        if((not_financial_flag == true) && (financial_flag == true)) {
+          $("#intangible_list").html(`
+                    <li>
+                      <input id='id20' type='checkbox' name='include[]' value='Developed Technology'>
+                      <label for='id20'> Developed Technology</li>
+                    <li>
+                      <input id='id21' type='checkbox' name='include[]' value='In-Process R&D'>
+                      <label for='id21'> In-Process R&D</li>
+                    <li>
+                      <input id='id22' type='checkbox' name='include[]' value='Customer Relationships'>
+                      <label for='id22'> Customer Relationships
+                    <li>
+                      <input id='id23' type='checkbox' name='include[]' value='Trade Name'>
+                      <label for='id23'> Trade Name
+                    <li>
+                      <input id='id24' type='checkbox' name='include[]' value='Backlog'>
+                      <label for='id24'> Backlog
+                    <li>
+                      <input id='id25' type='checkbox' name='include[]' value='Non-Compete Agreement'>
+                      <label for='id25'> Non-Compete Agreement
+                    <li>
+                      <input id='id26' type='checkbox' name='include[]' value='Contracts'>
+                      <label for='id26'> Contracts
+                    <li>
+                      <input id='id27' type='checkbox' name='include[]' value='Others'>
+                      <label for='id27'> Others
+                    <li>
+                      <input id='id28' type='checkbox' name='include[]' value='Core Deposit Intangibles'>
+                      <label for='id28'> Core Deposit Intangibles
+                    <li>
+                      <input id='id29' type='checkbox' name='include[]' value='Insurance, Other Licenses'>
+                      <label for='id29'> Insurance, Other Licenses
+                    <li>
+                      <input id='id30' type='checkbox' name='include[]' value='Servicing Rights'>
+                      <label for='id30'> Servicing Rights
+                    `);
+          $('#ex_intangible_list').html(`
+                    <li>
+                      <input id='id201' type='checkbox' name='exclude[]' value='Developed Technology'>
+                      <label for='id201'> Developed Technology</li>
+                    <li>
+                      <input id='id211' type='checkbox' name='exclude[]' value='In-Process R&D'>
+                      <label for='id211'> In-Process R&D</li>
+                    <li>
+                      <input id='id221' type='checkbox' name='exclude[]' value='Customer Relationships'>
+                      <label for='id221'> Customer Relationships
+                    <li>
+                      <input id='id231' type='checkbox' name='exclude[]' value='Trade Name'>
+                      <label for='id231'> Trade Name
+                    <li>
+                      <input id='id241' type='checkbox' name='exclude[]' value='Backlog'>
+                      <label for='id241'> Backlog
+                    <li>
+                      <input id='id251' type='checkbox' name='exclude[]' value='Non-Compete Agreement'>
+                      <label for='id251'> Non-Compete Agreement
+                    <li>
+                      <input id='id261' type='checkbox' name='exclude[]' value='Contracts'>
+                      <label for='id261'> Contracts
+                    <li>
+                      <input id='id271' type='checkbox' name='exclude[]' value='Others'>
+                      <label for='id271'> Others
+                    <li>
+                      <input id='id281' type='checkbox' name='exclude[]' value='Core Deposit Intangibles'>
+                      <label for='id281'> Core Deposit Intangibles
+                    <li>
+                      <input id='id291' type='checkbox' name='exclude[]' value='Insurance, Other Licenses'>
+                      <label for='id291'> Insurance, Other Licenses
+                    <li>
+                      <input id='id301' type='checkbox' name='exclude[]' value='Servicing Rights'>
+                      <label for='id301'> Servicing Rights
+                    `);
+        } else if (not_financial_flag == true) {
+          $("#intangible_list").html(`
+                    <li>
+                      <input id='id20' type='checkbox' name='include[]' value='Developed Technology'>
+                      <label for='id20'> Developed Technology</li>
+                    <li>
+                      <input id='id21' type='checkbox' name='include[]' value='In-Process R&D'>
+                      <label for='id21'> In-Process R&D</li>
+                    <li>
+                      <input id='id22' type='checkbox' name='include[]' value='Customer Relationships'>
+                      <label for='id22'> Customer Relationships
+                    <li>
+                      <input id='id23' type='checkbox' name='include[]' value='Trade Name'>
+                      <label for='id23'> Trade Name
+                    <li>
+                      <input id='id25' type='checkbox' name='include[]' value='Non-Compete Agreement'>
+                      <label for='id25'> Non-Compete Agreement
+                    <li>
+                      <input id='id24' type='checkbox' name='include[]' value='Backlog'>
+                      <label for='id24'> Backlog
+                    <li>
+                      <input id='id26' type='checkbox' name='include[]' value='Contracts'>
+                      <label for='id26'> Contracts
+                    <li>
+                      <input id='id27' type='checkbox' name='include[]' value='Others'>
+                      <label for='id27'> Others
+                    `);
+          $('#ex_intangible_list').html(`
+                    <li>
+                      <input id='id201' type='checkbox' name='exclude[]' value='Developed Technology'>
+                      <label for='id201'> Developed Technology</li>
+                    <li>
+                      <input id='id211' type='checkbox' name='exclude[]' value='In-Process R&D'>
+                      <label for='id211'> In-Process R&D</li>
+                    <li>
+                      <input id='id221' type='checkbox' name='exclude[]' value='Customer Relationships'>
+                      <label for='id221'> Customer Relationships
+                    <li>
+                      <input id='id231' type='checkbox' name='exclude[]' value='Trade Name'>
+                      <label for='id231'> Trade Name
+                    <li>
+                      <input id='id251' type='checkbox' name='exclude[]' value='Non-Compete Agreement'>
+                      <label for='id251'> Non-Compete Agreement
+                    <li>
+                      <input id='id241' type='checkbox' name='exclude[]' value='Backlog'>
+                      <label for='id241'> Backlog
+                    <li>
+                      <input id='id261' type='checkbox' name='exclude[]' value='Contracts'>
+                      <label for='id261'> Contracts
+                    <li>
+                      <input id='id271' type='checkbox' name='exclude[]' value='Others'>
+                      <label for='id271'> Others
+                    `);
+        } else if (financial_flag == true) {
+          $("#intangible_list").html(`
+                    <li>
+                      <input id='id20' type='checkbox' name='include[]' value='Developed Technology'>
+                      <label for='id20'> Developed Technology</li>
+                    <li>
+                      <input id='id22' type='checkbox' name='include[]' value='Customer Relationships'>
+                      <label for='id22'> Customer Relationships
+                    <li>
+                      <input id='id23' type='checkbox' name='include[]' value='Trade Name'>
+                      <label for='id23'> Trade Name
+                    <li>
+                      <input id='id25' type='checkbox' name='include[]' value='Non-Compete Agreement'>
+                      <label for='id25'> Non-Compete Agreement
+                    <li>
+                      <input id='id26' type='checkbox' name='include[]' value='Contracts'>
+                      <label for='id26'> Contracts
+                    <li>
+                      <input id='id27' type='checkbox' name='include[]' value='Others'>
+                      <label for='id27'> Others
+                    <li>
+                      <input id='id28' type='checkbox' name='include[]' value='Core Deposit Intangibles'>
+                      <label for='id28'> Core Deposit Intangibles
+                    <li>
+                      <input id='id29' type='checkbox' name='include[]' value='Insurance, Other Licenses'>
+                      <label for='id29'> Insurance, Other Licenses
+                    <li>
+                      <input id='id30' type='checkbox' name='include[]' value='Servicing Rights'>
+                      <label for='id30'> Servicing Rights
+                    `);
+          $('#ex_intangible_list').html(`
+                    <li>
+                      <input id='id201' type='checkbox' name='exclude[]' value='Developed Technology'>
+                      <label for='id201'> Developed Technology</li>
+                    <li>
+                      <input id='id221' type='checkbox' name='exclude[]' value='Customer Relationships'>
+                      <label for='id221'> Customer Relationships
+                    <li>
+                      <input id='id231' type='checkbox' name='exclude[]' value='Trade Name'>
+                      <label for='id231'> Trade Name
+                    <li>
+                      <input id='id251' type='checkbox' name='exclude[]' value='Non-Compete Agreement'>
+                      <label for='id251'> Non-Compete Agreement
+                    <li>
+                      <input id='id261' type='checkbox' name='exclude[]' value='Contracts'>
+                      <label for='id261'> Contracts
+                    <li>
+                      <input id='id271' type='checkbox' name='exclude[]' value='Others'>
+                      <label for='id271'> Others
+                    <li>
+                      <input id='id281' type='checkbox' name='exclude[]' value='Core Deposit Intangibles'>
+                      <label for='id281'> Core Deposit Intangibles
+                    <li>
+                      <input id='id291' type='checkbox' name='exclude[]' value='Insurance, Other Licenses'>
+                      <label for='id291'> Insurance, Other Licenses
+                    <li>
+                      <input id='id301' type='checkbox' name='exclude[]' value='Servicing Rights'>
+                      <label for='id301'> Servicing Rights`);
+        } else {
+          $("#intangible_list").html(``);
+          $('#ex_intangible_list').html(``);
+        }
+        $('.drop_down_box input[type=checkbox]').change(function() {
+          console.log('sdfsdf');
+          checkHandler(this);
+          getCheckedIDs();
+        });
+      }
+
+      function getCheckedIDs1() {
+        var checklist = $("#sector1 > .popupBody").find('input[type=checkbox]:checked');
+        if($("#sector2 > .popupBody").find('input[type=checkbox]:checked').length>0){
+          var temp_list = $("#sector2 > .popupBody").find('input[type=checkbox]:checked');
+          for(var i =0; i<temp_list.length; i++) {
+            checklist.push(temp_list[i]);
+          }
+        }
+        if($("#sector3 > .popupBody").find('input[type=checkbox]:checked').length>0){
+          var temp_list = $("#sector3 > .popupBody").find('input[type=checkbox]:checked');
+          for(var i =0; i<temp_list.length; i++) {
+            checklist.push(temp_list[i]);
+          }
+        }
+        if($("#sector4 > .popupBody").find('input[type=checkbox]:checked').length>0){
+          var temp_list = $("#sector4 > .popupBody").find('input[type=checkbox]:checked');
+          for(var i =0; i<temp_list.length; i++) {
+            checklist.push(temp_list[i]);
+          }
+        }
+        console.log(checklist);
+        var idsArr = [];
+        financial_flag = false;
+        $("#financial_flag").val(false);
+        not_financial_flag = false;
+        $("#not_financial_flag").val(false);
+        for(var i=0; i<checklist.length; i++){
+          idsArr.push($(checklist[i]).attr('id'));
+          var classnames = $(checklist[i]).attr('class');
+          if(classnames == 'parent4') {
+            financial_flag = true;
+            $("#financial_flag").val(true);
+          } else {
+            not_financial_flag = true;
+            $("#not_financial_flag").val(true);
+          }
+        }
+        $('input#checkedids1').val(idsArr.toString());
+        console.log(idsArr.toString());
+        updateIntangible();
+      }
+
+      function getCheckedIDs() {
+        var checklist = $('.drop_down_box').find('input[type=checkbox]:checked');
+        var idsArr = [];
+        for(var i=0; i<checklist.length; i++)
+          idsArr.push($(checklist[i]).attr('id'));
+        $('input#checkedids').val(idsArr.toString());
+      }
+
+      function checkHandler1(element) {
+        var ch_numb = 0;
+        ch_numb = $("#sector1 > .popupBody").find('input[type=checkbox]:checked').length +
+                  $("#sector2 > .popupBody").find('input[type=checkbox]:checked').length +
+                  $("#sector3 > .popupBody").find('input[type=checkbox]:checked').length +
+                  $("#sector4 > .popupBody").find('input[type=checkbox]:checked').length;
+        $("#ind_count").text("("+ch_numb+")");
+        //- var dropboxid = $(element).parents().closest('.drop_down_box').attr('id');
+        
+      }
+
+      function checkHandler(element) {
+        var ch_numb = 0;
+        ch_numb = $(element).parent().parent().find('input[type=checkbox]:checked').length;
+
+        $(element).parents().closest('.drop_down_box').find('.drop_down_head span').text("("+ch_numb+")");
+
+        var dropboxid = $(element).parents().closest('.drop_down_box').attr('id');
+        if(dropboxid == 'singleselect') {
+          if(ch_numb == 1)
+            disableUnchecked(element);
+          else
+            enableUnchecked(element);
+        } else {
+          if(ch_numb == 2)
+            disableUnchecked(element);
+          else
+            enableUnchecked(element);
+        }
+      }
+
+      function disableUnchecked(div) {
+        var uncheckedList = $(div).parent().parent().find('input[type=checkbox]:not(:checked)');
+        for(var i=0; i<uncheckedList.length; i++) {
+          uncheckedList[i].disabled = true;
+        }
+      }
+      function enableUnchecked(div) {
+        var mylist =  $(div).parent().parent().find('input[type=checkbox]');
+        console.log(mylist);
+        for(var i=0; i<mylist.length; i++) {
+          mylist[i].disabled = false;
+        }
+      }
+
+      $('.popupHeader label').on('click', function() {
+        var parent_id = $(this).attr('for');
+        var childlist = $('.'+parent_id);
+        for(var i=0; i<childlist.length; i++) {
+          $(childlist[i])[0].checked = !$("#"+parent_id).is(":checked");
+          checkHandler1(childlist[i]); 
+        }
+        getCheckedIDs1();
+        //- $('.'+parent_id).attr('checked', !$("#"+parent_id).is(":checked"));
+      });
+
+      $('.drop_down_head').on('click', function() {
+        var curdropbox = $(this).parent('.drop_down_box');
+        var dropboxlist = $('.drop_down_box');
+        for(var i=0; i<dropboxlist.length; i++) {
+          if(curdropbox.is(dropboxlist[i])){
+            $(curdropbox).toggleClass('active');
+          }
+          else {
+            $(dropboxlist[i]).removeClass('active');
+          }
+        }
+      });
+      $("#threeselect").leanModal({top : 200, overlay : 0.6, closeButton: ".modal_close" });
+    });
+
+  .page_body.padding_top_header
+    // Result
+    section.result_table_section
+      .padding_lr.stretch.clrfx
+        .filters_box.scrolly_box
+          form#form1.form_style_1(action='/dashboard', method='post')
+            input#checkedids(name='checkedids', type='hidden', value='')
+            input#financial_flag(name='financial_flag', type='hidden', value='')
+            input#not_financial_flag(name='not_financial_flag', type='hidden', value='')
+            #modal.popupContainer(style='display:none;border-radius:20px;width:80%;')
+              input#checkedids1(name='checkedids1', type='hidden', value='')
+              div#sector1.col-md-3(style='')
+                header.popupHeader(style='border-radius: 20px 20px 0px 0px;')
+                  div
+                    ul.radio_checkbox_container
+                      li
+                        input#parent1(type='checkbox', name='industries[]', value='Information Technology')
+                        label.checkbox_style1(for='parent1', style='font-weight: bold;') Information Technology
+                  //- span.header_title Login
+                  //- span.modal_close
+                  //-   i.fa.fa-times
+                section.popupBody
+                  div
+                    ul.radio_checkbox_container(style='padding-bottom:10px;')
+                      li
+                        input#id301.parent1(type='checkbox', name='industries[]', value='eCommerce')
+                        label.checkbox_style1(for='id301') eCommerce
+                      li
+                        input#id302.parent1(type='checkbox', name='industries[]', value='Electronic Equipment and Other')
+                        label.checkbox_style1(for='id302') Electronic Equipment and Other
+                      li
+                        input#id303.parent1(type='checkbox', name='industries[]', value='IT Consulting, Outsourcing, Other')
+                        label.checkbox_style1(for='id303') IT Consulting, Outsourcing, Other
+                      li
+                        input#id304.parent1(type='checkbox', name='industries[]', value='IT Hardware')
+                        label.checkbox_style1(for='id304') IT Hardware
+                      li
+                        input#id305.parent1(type='checkbox', name='industries[]', value='Semiconductors and Equipment')
+                        label.checkbox_style1(for='id305') Semiconductors and Equipment
+                      li
+                        input#id306.parent1(type='checkbox', name='industries[]', value='Software')
+                        label.checkbox_style1(for='id306') Software
+                      li
+                        input#id307.parent1(type='checkbox', name='industries[]', value='Technology Distribution')
+                        label.checkbox_style1(for='id307') Technology Distribution
+
+
+              div#sector2.col-md-3(style='')
+                header.popupHeader(style='border-radius: 20px 20px 0px 0px;')
+                  div
+                    ul.radio_checkbox_container
+                      li
+                        input#parent2(type='checkbox', name='industries[]', value='Healthcare')
+                        label.checkbox_style1(for='parent2', style='font-weight: bold;') Healthcare
+                  //- span.header_title Login
+                  //- span.modal_close
+                  //-   i.fa.fa-times
+                section.popupBody
+                  div
+                    ul.radio_checkbox_container(style='padding-bottom:10px;')
+                      li
+                        input#id311.parent2(type='checkbox', name='industries[]', value='Biotechnology')
+                        label.checkbox_style1(for='id311') Biotechnology
+                      li
+                        input#id312.parent2(type='checkbox', name='industries[]', value='Pharmaceuticals')
+                        label.checkbox_style1(for='id312') Pharmaceuticals
+                      li
+                        input#id313.parent2(type='checkbox', name='industries[]', value='Medical Devices')
+                        label.checkbox_style1(for='id313') Medical Devices
+                      li
+                        input#id314.parent2(type='checkbox', name='industries[]', value='Medical Equipment and Supplies')
+                        label.checkbox_style1(for='id314') Medical Equipment and Supplies
+                      li
+                        input#id315.parent2(type='checkbox', name='industries[]', value='Medical Research Equipment, Other')
+                        label.checkbox_style1(for='id315') Medical Research Equipment, Other
+                      li
+                        input#id316.parent2(type='checkbox', name='industries[]', value='Medical Services and Distributors')
+                        label.checkbox_style1(for='id316') Medical Services and Distributors
+                      li
+                        input#id317.parent2(type='checkbox', name='industries[]', value='Medical Facilities')
+                        label.checkbox_style1(for='id317') Medical Facilities
+              div#sector3.col-md-3(style='')
+                header.popupHeader(style='border-radius: 20px 20px 0px 0px;')
+                  div
+                    ul.radio_checkbox_container
+                      li
+                        input#parent3(type='checkbox', name='industries[]', value='Consumer Products')
+                        label.checkbox_style1(for='parent3', style='font-weight: bold;') Consumer Products
+                  //- span.header_title Login
+                  //- span.modal_close
+                  //-   i.fa.fa-times
+                section.popupBody
+                  div
+                    ul.radio_checkbox_container(style='padding-bottom:10px;')
+                      li
+                        input#id321.parent3(type='checkbox', name='industries[]', value='Apparel and Other')
+                        label.checkbox_style1(for='id321') Apparel and Other
+                      li
+                        input#id322.parent3(type='checkbox', name='industries[]', value='Auto')
+                        label.checkbox_style1(for='id322') Auto
+                      li
+                        input#id323.parent3(type='checkbox', name='industries[]', value='Broadcasting, Publishing and Other')
+                        label.checkbox_style1(for='id323') Broadcasting, Publishing and Other
+                      li
+                        input#id324.parent3(type='checkbox', name='industries[]', value='Misc. Consumer Products')
+                        label.checkbox_style1(for='id324') Misc. Consumer Products
+                      li
+                        input#id325.parent3(type='checkbox', name='industries[]', value='Consumer Services')
+                        label.checkbox_style1(for='id325') Consumer Services
+                      li
+                        input#id326.parent3(type='checkbox', name='industries[]', value='Distribution')
+                        label.checkbox_style1(for='id326') Distribution
+                      li
+                        input#id327.parent3(type='checkbox', name='industries[]', value='Entertainment and Lesure Facilities')
+                        label.checkbox_style1(for='id327') Entertainment and Lesure Facilities
+                      li
+                        input#id328.parent3(type='checkbox', name='industries[]', value='Food and Beverages')
+                        label.checkbox_style1(for='id328') Food and Beverages
+                      li
+                        input#id329.parent3(type='checkbox', name='industries[]', value='Home Goods and Electronics')
+                        label.checkbox_style1(for='id329') Home Goods and Electronics
+                      li
+                        input#id330.parent3(type='checkbox', name='industries[]', value='Retail')
+                        label.checkbox_style1(for='id330') Retail
+              div#sector4.col-md-3(style='')
+                header.popupHeader(style='border-radius: 20px 20px 0px 0px;')
+                  div
+                    ul.radio_checkbox_container
+                      li
+                        input#parent4(type='checkbox', name='industries[]', value='Financial Services')
+                        label.checkbox_style1(for='parent4', style='font-weight: bold;') Financial Services
+                  //- span.header_title Login
+                  //- span.modal_close
+                  //-   i.fa.fa-times
+                section.popupBody
+                  div
+                    ul.radio_checkbox_container(style='padding-bottom:10px;')
+                      li
+                        input#id331.parent4(type='checkbox', name='industries[]', value='Asset, Wealth Management')
+                        label.checkbox_style1(for='id331') Asset, Wealth Management
+                      li
+                        input#id332.parent4(type='checkbox', name='industries[]', value='Banking')
+                        label.checkbox_style1(for='id332') Banking
+                      li
+                        input#id333.parent4(type='checkbox', name='industries[]', value='Financial Intermediaries')
+                        label.checkbox_style1(for='id333') Financial Intermediaries
+                      li
+                        input#id334.parent4(type='checkbox', name='industries[]', value='Insurance')
+                        label.checkbox_style1(for='id334') Insurance
+                      li
+                        input#id335.parent4(type='checkbox', name='industries[]', value='Lending Institutions')
+                        label.checkbox_style1(for='id335') Lending Institutions
+                      li
+                        input#id336.parent4(type='checkbox', name='industries[]', value='Management Consulting')
+                        label.checkbox_style1(for='id336') Management Consulting
+            div
+              label.label_top(for='') Select Industries
+              .drop_down_box#threeselect(href='#modal')
+                .drop_down_head
+                  div
+                    label Select Industries
+                    span#ind_count.ch_numb (0)
+            div
+              label.label_top(for='') Keyword
+              .drop_down_box
+                .drop_down_head
+                  div
+                    label Keyword
+                .drop_down_body
+                  ul.radio_checkbox_container
+                    li
+                      input#id18(type='text', name='keyword[]')
+                    li
+                      input#id19(type='text', name='keyword[]')
+
+
+            div
+              label.label_top(for='include') Intangibles to Include
+
+              .drop_down_box
+                .drop_down_head
+                  div
+                    label Intangibles to Include
+                    span.ch_numb (0)
+                .drop_down_body
+                  ul#intangible_list.radio_checkbox_container
+                    //- li
+                    //-   input#id26(type='checkbox', name='include[]', value='NA')
+                    //-   label(for='id26') NA
+            div
+
+              .drop_down_box#singleselect1
+                .drop_down_head
+                  div
+                    label Intangibles to Exclude
+                    span.ch_numb (0)
+                .drop_down_body
+                  ul#ex_intangible_list.radio_checkbox_container
+            div
+              label.label_top(for='include') Years
+              .drop_down_box
+                .drop_down_head
+                  div
+                    label Years
+                    span.ch_numb (0)
+                .drop_down_body
+                  ul.radio_checkbox_container
+                    li
+                      input#idyear2015(type='checkbox', name='year[]', value='15')
+                      label(for='idyear2015') 2015
+                    li
+                      input#idyear2016(type='checkbox', name='year[]', value='16')
+                      label(for='idyear2016') 2016
+            div
+              input#preliminary(type='checkbox', name='preliminary', value='preliminary')
+              label#preliminary_label(for='preliminary') Include Preliminary
+            .form_footer
+              //
+                div.form_footer_info.fs_13
+                  Please select industries,  intangible assets to include and/or exclude, and keywords.
+
+              .form_footer_btns
+                button#tabe_filters_apply(type='submit') Go
+        
+        // RESPONSIVE TABLE
+        .responsive_table.tabs.mobile_table(style='min-height: 338px;')
+          .tabs_list.clrfx
+            .tab_btn_1.active ALLOCATION
+            .tab_btn_3 USEFULL LIVES
+            .tab_btn_2 AVAILABLE DATAPOINTS
+
+          .tabs_content
+            div
+              .tr_name(style='vertical-align:bottom; padding-bottom: 20px;') Business Combinations
+              .tabs_box
+                .tab_1.active(style='width: 100%;')
+                  div(style='width: 33.3333%;display: inline-block;') 
+                    div(style='display:table; height:60px;') 
+                      p(style='vertical-align:bottom;display:table-cell;') Purchase Consideration
+                  div(style='width: 33.3333%;display: inline-block;') 
+                    div(style='display:table; height:60px;') 
+                      p(style='vertical-align:bottom;display:table-cell;') Net Assets
+                  div(style='width: 33.3333%;display: inline-block;') 
+                    div(style='display:table; height:60px;') 
+                      p(style='vertical-align:bottom;display:table-cell;') Excess Consideration
+                .tab_3(style='width: 100%; display: none;')
+                  div(style='width: 25%;display: inline-block;') 
+                    div(style='display:table; height:60px;') 
+                      p(style='vertical-align:bottom;display:table-cell;') Median
+                  div(style='width: 25%;display: inline-block;') 
+                    div(style='display:table; height:60px;') 
+                      p(style='vertical-align:bottom;display:table-cell;') Standard Deviation
+                  div(style='width: 25%;display: inline-block;') 
+                    div(style='display:table; height:60px;') 
+                      p(style='vertical-align:bottom;display:table-cell;') Datapoints (Finite Life)
+                  div(style='width: 25%;display: inline-block;') 
+                    div(style='display:table; height:60px;') 
+                      p(style='vertical-align:bottom;display:table-cell;') Datapoints (Indefinite Life)
+                .tab_2(style='width: 100%; display: none;')
+                  div(style='width: 25%;display: inline-block;') 
+                    div(style='display:table; height:60px;') 
+                      p(style='vertical-align:bottom;display:table-cell;') Purchase Consideration
+                  div(style='width: 25%;display: inline-block;') 
+                    div(style='display:table; height:60px;') 
+                      p(style='vertical-align:bottom;display:table-cell;') Net Assets
+                  div(style='width: 25%;display: inline-block;') 
+                    div(style='display:table; height:60px;') 
+                      p(style='vertical-align:bottom;display:table-cell;') Excess Consideration
+                  div(style='width: 25%;display: inline-block;') 
+                    div(style='display:table; height:60px;') 
+                      p(style='vertical-align:bottom;display:table-cell;') Total In This Industry
+            if tabledata
+              div
+                .tr_name Inventory
+                .tabs_box
+                  .tab_1.active(style='width: 100%;')
+                    div(style='width: 33.3333%;') #{tabledata['38_4'] ? tabledata['38_4'] : 0}
+                    div(style='width: 33.3333%;') #{tabledata['38_5'] ? tabledata['38_5'] : 0}
+                    div(style='width: 33.3333%;') #{tabledata['38_7'] ? tabledata['38_7'] : 0}
+                  .tab_3(style='width: 100%; display: none;')
+                    div(style='width: 100%;') na
+                  .tab_2(style='width: 100%; display: none;')
+                    div(style='width: 25%;') #{tabledata['38_14'] ? tabledata['38_14'] : 0}
+                    div(style='width: 25%;') #{tabledata['38_15'] ? tabledata['38_15'] : 0}
+                    div(style='width: 25%;') #{tabledata['38_17'] ? tabledata['38_17'] : 0}
+                    div(style='width: 25%;') #{tabledata['38_18'] ? tabledata['38_18'] : 0}
+              div
+                .tr_name Property, Plant and Equipment
+                .tabs_box
+                  .tab_1.active(style='width: 100%;')
+                    div(style='width: 33.3333%;') #{tabledata['39_4'] ? tabledata['39_4'] : 0}
+                    div(style='width: 33.3333%;') #{tabledata['39_5'] ? tabledata['39_5'] : 0}
+                    div(style='width: 33.3333%;') #{tabledata['39_7'] ? tabledata['39_7'] : 0}
+                  .tab_3(style='width: 100%; display: none;')
+                    div(style='width: 100%;') na
+                  .tab_2(style='width: 100%; display: none;')
+                    div(style='width: 25%;') #{tabledata['39_14'] ? tabledata['39_14'] : 0}
+                    div(style='width: 25%;') #{tabledata['39_15'] ? tabledata['39_15'] : 0}
+                    div(style='width: 25%;') #{tabledata['39_17'] ? tabledata['39_17'] : 0}
+                    div(style='width: 25%;') #{tabledata['39_18'] ? tabledata['39_18'] : 0}
+              div
+                .tr_name Goodwill
+                .tabs_box
+                  .tab_1.active(style='width: 100%;')
+                    div(style='width: 33.3333%;') #{tabledata['17_4'] ? tabledata['17_4'] : 0}
+                    div(style='width: 33.3333%;') #{tabledata['17_5'] ? tabledata['17_5'] : 0}
+                    div(style='width: 33.3333%;') #{tabledata['17_7'] ? tabledata['17_7'] : 0}
+                  .tab_3(style='width: 100%; display: none;')
+                    div(style='width: 100%;') Indefinite
+                  .tab_2(style='width: 100%; display: none;')
+                    div(style='width: 25%;') #{tabledata['17_14'] ? tabledata['17_14'] : 0}
+                    div(style='width: 25%;') #{tabledata['17_15'] ? tabledata['17_15'] : 0}
+                    div(style='width: 25%;') #{tabledata['17_17'] ? tabledata['17_17'] : 0}
+                    div(style='width: 25%;') #{tabledata['17_18'] ? tabledata['17_18'] : 0}
+            - for (var i = 0; i < result_count; ++i) {
+            - if((i != 6) && (i != 8) && (i != 9) ) {
+              div
+                .tr_name #{tabledata[(30+i)+'_2']}
+                .tabs_box
+                  .tab_1.active(style='width: 100%;')
+                    div(style='width: 33.3333%;') #{tabledata[(30+i)+'_4'] ? tabledata[(30+i)+'_4'] : 0}
+                    div(style='width: 33.3333%;') #{tabledata[(30+i)+'_5'] ? tabledata[(30+i)+'_5'] : 0}
+                    div(style='width: 33.3333%;') #{tabledata[(30+i)+'_7'] ? tabledata[(30+i)+'_7'] : 0}
+                  .tab_3(style='width: 100%; display: none;')
+                    div(style='width: 25%;') #{tabledata[(30+i)+'_20'] ? tabledata[(30+i)+'_20'] : 0}
+                    div(style='width: 25%;') #{tabledata[(30+i)+'_21'] ? tabledata[(30+i)+'_21'] : 0}
+                    div(style='width: 25%;') #{tabledata[(30+i)+'_22'] ? tabledata[(30+i)+'_22'] : 0}
+                    div(style='width: 25%;') #{tabledata[(30+i)+'_23'] ? tabledata[(30+i)+'_23'] : 0}
+                  .tab_2(style='width: 100%; display: none;')
+                    div(style='width: 25%;') #{tabledata[(30+i)+'_14'] ? tabledata[(30+i)+'_14'] : 0}
+                    div(style='width: 25%;') #{tabledata[(30+i)+'_15'] ? tabledata[(30+i)+'_15'] : 0}
+                    div(style='width: 25%;') #{tabledata[(30+i)+'_17'] ? tabledata[(30+i)+'_17'] : 0}
+                    div(style='width: 25%;') #{tabledata[(30+i)+'_18'] ? tabledata[(30+i)+'_18'] : 0}
+            - }
+            - }
+              //- div
+              //-   .tr_name #{tabledata['30_2']}
+              //-   .tabs_box
+              //-     .tab_1.active(style='width: 100%;')
+              //-       div(style='width: 33.3333%;') #{tabledata['30_4'] ? tabledata['30_4'] : 0}
+              //-       div(style='width: 33.3333%;') #{tabledata['30_5'] ? tabledata['30_5'] : 0}
+              //-       div(style='width: 33.3333%;') #{tabledata['30_7'] ? tabledata['30_7'] : 0}
+              //-     .tab_3(style='width: 100%; display: none;')
+              //-       div(style='width: 25%;') #{tabledata['30_20'] ? tabledata['30_20'] : 0}
+              //-       div(style='width: 25%;') #{tabledata['30_21'] ? tabledata['30_21'] : 0}
+              //-       div(style='width: 25%;') #{tabledata['30_22'] ? tabledata['30_22'] : 0}
+              //-       div(style='width: 25%;') #{tabledata['30_23'] ? tabledata['30_23'] : 0}
+              //-     .tab_2(style='width: 100%; display: none;')
+              //-       div(style='width: 25%;') #{tabledata['30_14'] ? tabledata['30_14'] : 0}
+              //-       div(style='width: 25%;') #{tabledata['30_15'] ? tabledata['30_15'] : 0}
+              //-       div(style='width: 25%;') #{tabledata['30_17'] ? tabledata['30_17'] : 0}
+              //-       div(style='width: 25%;') #{tabledata['30_18'] ? tabledata['30_18'] : 0}
+              //- div
+              //-   .tr_name #{tabledata['31_2']}
+              //-   .tabs_box
+              //-     .tab_1.active(style='width: 100%;')
+              //-       div(style='width: 33.3333%;') #{tabledata['31_4'] ? tabledata['31_4'] : 0}
+              //-       div(style='width: 33.3333%;') #{tabledata['31_5'] ? tabledata['31_5'] : 0}
+              //-       div(style='width: 33.3333%;') #{tabledata['31_7'] ? tabledata['31_7'] : 0}
+              //-     .tab_3(style='width: 100%; display: none;')
+              //-       div(style='width: 25%;') #{tabledata['31_20'] ? tabledata['31_20'] : 0}
+              //-       div(style='width: 25%;') #{tabledata['31_21'] ? tabledata['31_21'] : 0}
+              //-       div(style='width: 25%;') #{tabledata['31_22'] ? tabledata['31_22'] : 0}
+              //-       div(style='width: 25%;') #{tabledata['31_23'] ? tabledata['31_23'] : 0}
+              //-     .tab_2(style='width: 100%; display: none;')
+              //-       div(style='width: 25%;') #{tabledata['31_14'] ? tabledata['31_14'] : 0}
+              //-       div(style='width: 25%;') #{tabledata['31_15'] ? tabledata['31_15'] : 0}
+              //-       div(style='width: 25%;') #{tabledata['31_17'] ? tabledata['31_17'] : 0}
+              //-       div(style='width: 25%;') #{tabledata['31_18'] ? tabledata['31_18'] : 0}
+              //- div
+              //-   .tr_name #{tabledata['32_2']}
+              //-   .tabs_box
+              //-     .tab_1.active(style='width: 100%;')
+              //-       div(style='width: 33.3333%;') #{tabledata['32_4'] ? tabledata['32_4'] : 0}
+              //-       div(style='width: 33.3333%;') #{tabledata['32_5'] ? tabledata['32_5'] : 0}
+              //-       div(style='width: 33.3333%;') #{tabledata['32_7'] ? tabledata['32_7'] : 0}
+              //-     .tab_3(style='width: 100%; display: none;')
+              //-       div(style='width: 25%;') #{tabledata['32_20'] ? tabledata['32_20'] : 0}
+              //-       div(style='width: 25%;') #{tabledata['32_21'] ? tabledata['32_21'] : 0}
+              //-       div(style='width: 25%;') #{tabledata['32_22'] ? tabledata['32_22'] : 0}
+              //-       div(style='width: 25%;') #{tabledata['32_23'] ? tabledata['32_23'] : 0}
+              //-     .tab_2(style='width: 100%; display: none;')
+              //-       div(style='width: 25%;') #{tabledata['32_14'] ? tabledata['32_14'] : 0}
+              //-       div(style='width: 25%;') #{tabledata['32_15'] ? tabledata['32_15'] : 0}
+              //-       div(style='width: 25%;') #{tabledata['32_17'] ? tabledata['32_17'] : 0}
+              //-       div(style='width: 25%;') #{tabledata['32_18'] ? tabledata['32_18'] : 0}
+              //- div
+              //-   .tr_name #{tabledata['33_2']}
+              //-   .tabs_box
+              //-     .tab_1.active(style='width: 100%;')
+              //-       div(style='width: 33.3333%;') #{tabledata['33_4'] ? tabledata['33_4'] : 0}
+              //-       div(style='width: 33.3333%;') #{tabledata['33_5'] ? tabledata['33_5'] : 0}
+              //-       div(style='width: 33.3333%;') #{tabledata['33_7'] ? tabledata['33_7'] : 0}
+              //-     .tab_3(style='width: 100%; display: none;')
+              //-       div(style='width: 25%;') #{tabledata['33_20'] ? tabledata['33_20'] : 0}
+              //-       div(style='width: 25%;') #{tabledata['33_21'] ? tabledata['33_21'] : 0}
+              //-       div(style='width: 25%;') #{tabledata['33_22'] ? tabledata['33_22'] : 0}
+              //-       div(style='width: 25%;') #{tabledata['33_23'] ? tabledata['33_23'] : 0}
+              //-     .tab_2(style='width: 100%; display: none;')
+              //-       div(style='width: 25%;') #{tabledata['33_14'] ? tabledata['33_14'] : 0}
+              //-       div(style='width: 25%;') #{tabledata['33_15'] ? tabledata['33_15'] : 0}
+              //-       div(style='width: 25%;') #{tabledata['33_17'] ? tabledata['33_17'] : 0}
+              //-       div(style='width: 25%;') #{tabledata['33_18'] ? tabledata['33_18'] : 0}
+              //- div
+              //-   .tr_name #{tabledata['34_2']}
+              //-   .tabs_box
+              //-     .tab_1.active(style='width: 100%;')
+              //-       div(style='width: 33.3333%;') #{tabledata['34_4'] ? tabledata['34_4'] : 0}
+              //-       div(style='width: 33.3333%;') #{tabledata['34_5'] ? tabledata['34_5'] : 0}
+              //-       div(style='width: 33.3333%;') #{tabledata['34_7'] ? tabledata['34_7'] : 0}
+              //-     .tab_3(style='width: 100%; display: none;')
+              //-       div(style='width: 25%;') #{tabledata['34_20'] ? tabledata['34_20'] : 0}
+              //-       div(style='width: 25%;') #{tabledata['34_21'] ? tabledata['34_21'] : 0}
+              //-       div(style='width: 25%;') #{tabledata['34_22'] ? tabledata['34_22'] : 0}
+              //-       div(style='width: 25%;') #{tabledata['34_23'] ? tabledata['34_23'] : 0}
+              //-     .tab_2(style='width: 100%; display: none;')
+              //-       div(style='width: 25%;') #{tabledata['34_14'] ? tabledata['34_14'] : 0}
+              //-       div(style='width: 25%;') #{tabledata['34_15'] ? tabledata['34_15'] : 0}
+              //-       div(style='width: 25%;') #{tabledata['34_17'] ? tabledata['34_17'] : 0}
+              //-       div(style='width: 25%;') #{tabledata['34_18'] ? tabledata['34_18'] : 0}
+              //- div
+              //-   .tr_name #{tabledata['35_2']}
+              //-   .tabs_box
+              //-     .tab_1.active(style='width: 100%;')
+              //-       div(style='width: 33.3333%;') #{tabledata['35_4'] ? tabledata['35_4'] : 0}
+              //-       div(style='width: 33.3333%;') #{tabledata['35_5'] ? tabledata['35_5'] : 0}
+              //-       div(style='width: 33.3333%;') #{tabledata['35_7'] ? tabledata['35_7'] : 0}
+              //-     .tab_3(style='width: 100%; display: none;')
+              //-       div(style='width: 25%;') #{tabledata['35_20'] ? tabledata['35_20'] : 0}
+              //-       div(style='width: 25%;') #{tabledata['35_21'] ? tabledata['35_21'] : 0}
+              //-       div(style='width: 25%;') #{tabledata['35_22'] ? tabledata['35_22'] : 0}
+              //-       div(style='width: 25%;') #{tabledata['35_23'] ? tabledata['35_23'] : 0}
+              //-     .tab_2(style='width: 100%; display: none;')
+              //-       div(style='width: 25%;') #{tabledata['35_14'] ? tabledata['35_14'] : 0}
+              //-       div(style='width: 25%;') #{tabledata['35_15'] ? tabledata['35_15'] : 0}
+              //-       div(style='width: 25%;') #{tabledata['35_17'] ? tabledata['35_17'] : 0}
+              //-       div(style='width: 25%;') #{tabledata['35_18'] ? tabledata['35_18'] : 0}

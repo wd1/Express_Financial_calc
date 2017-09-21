@@ -1,0 +1,40 @@
+extends ../layout
+
+block content
+
+  .page_body.padding_top_header
+
+    section.result_table_section
+      .padding_lr.stretch.clrfx
+        .users_responsive_table.tabs.mobile_table(style='min-height: 338px; overflow: auto')
+
+              .tabs_content(style='min-width: 1000px;')
+                div
+                  .tr_user_name No
+                  .tabs_box
+                    .tab_3(style='width: 100%;')
+                      div(style='width: 20%;') Name
+                      div(style='width: 20%;') Email
+                      div(style='width: 20%;') Date registered
+                      div(style='width: 10%;') Company
+                      div(style='width: 20%;') Job Function
+                      div(style='width: 10%;') Enabled
+
+                if tabledata
+                  each row, i in tabledata
+                    div
+                      .tr_user_name #{i+1}
+                      .tabs_box
+                        .tab_3(style='width: 100%;')
+                          div(style='width: 20%;') #{row.fullname}
+                          div(style='width: 20%;') #{row.email}
+                          div(style='width: 20%;') #{row.signupDate}
+                          div(style='width: 10%;') #{row.company}
+                          div(style='width: 20%;') #{jobfunctiondata[row.jobfunction] ? jobfunctiondata[row.jobfunction] : ''}
+                          div(style='width: 10%;')
+                            if(row.enabled == 1)
+                              input.cmn-toggle.cmn-toggle-yes-no(id='cmn-toggle-#{row.id}', type="checkbox", checked)
+                            else
+                              input.cmn-toggle.cmn-toggle-yes-no(id='cmn-toggle-#{row.id}', type="checkbox")
+
+                            label(for="cmn-toggle-#{row.id}",data-on="Yes",data-off="No")

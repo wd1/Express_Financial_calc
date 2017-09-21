@@ -1,0 +1,26 @@
+extends ../../layout
+
+block content
+
+  .page_body.padding_top_header
+    // Reset password
+    section.sign_up_section.mwidth_680
+      .resolution.padding_lr
+        .hn2.ta_c
+          h1 Reset password
+        .ta_c
+          | Please enter your email address and
+          br
+          |  press button Sent to reset your password
+
+        != messages()
+
+        br
+        .mwidth_320
+          form.form_reset_password_email.form_style_1(action='/users/resetpassword', novalidate='novalidate' method="post")
+            div
+              input(type='email', placeholder='Email', name='email', required='', aria-required='true')
+            .form_footer
+              .form_footer_btns
+                .btn_color_fill
+                  button(type='submit') Send

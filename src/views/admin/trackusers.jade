@@ -1,0 +1,33 @@
+extends ../layout
+
+block content
+
+  .page_body.padding_top_header
+
+    section.result_table_section
+      .padding_lr.stretch.clrfx
+        .users_responsive_table.tabs.mobile_table(style='min-height: 338px;overflow: auto')
+
+          .tabs_content(style='min-width: 1000px')
+            div
+              .tr_user_name No
+              .tabs_box
+                .tab_3(style='width: 100%;')
+                  div(style='width: 10%;') Name
+                  div(style='width: 12%;') Search Date
+                  div(style='width: 20%;') Industries
+                  div(style='width: 20%;') Description Keywords
+                  div(style='width: 20%;') Included Intangibles
+                  div(style='width: 18%;') Excluded Intangibles
+            if tabledata
+              each row, i in tabledata
+                div
+                  .tr_user_name #{i+1}
+                  .tabs_box
+                    .tab_3(style='width: 100%;')
+                      div(style='width: 10%;') #{row.fullname}
+                      div(style='width: 12%;') #{row.searchdate}
+                      div(style='width: 20%;') #{row.industries}
+                      div(style='width: 20%;') #{row.keywords}
+                      div(style='width: 20%;') #{row.included_intans}
+                      div(style='width: 18%;') #{row.excluded_intans}

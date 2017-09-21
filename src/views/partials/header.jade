@@ -1,0 +1,75 @@
+// ======================== HEADER ========================
+
+if(title == 'Purchase Price Allocations Visualized Through Benchmarking')
+  - var headerClass = 'main_header'
+else if(title == 'Result')
+  - var headerClass = 'main_header header_bg header_fix'
+else
+  - var headerClass = 'main_header header_bg'
+
+header(class="#{headerClass}")
+  .resolution
+    .logo
+      a(href='/', title='bench805.com')
+
+    if user
+      .header_right_tool.logged
+        // visible blog logged or not
+        if title == 'Result'
+          .btn_filters_vis
+        .btn_user_tool_vis
+        .usertool.align_c
+          .h_logged_box
+            .h_username
+              | #{user.firstname}
+            .btn_logout
+              a(type='submit' href='/logout')
+        .btn_menu_vis
+        if admin
+          nav.header_menu
+            div
+              a(href='/admin', title='bench805.com | Admin')
+                | Admin
+            div
+              a(href='/dashboard', title='bench805.com | Benchmarking')
+                | Benchmarking
+            div
+              a(href='/admin/viewtable', title='bench805.com | View Table')
+                | View Table
+            div
+              a(href='/admin/users', title='bench805.com | Manage Users')
+                | Manage Users
+            div
+              a(href='/admin/trackusers', title='bench805.com | Track Users')
+                | Track Users
+        else
+          nav.header_menu
+            div
+              a(href='/about', title='bench805.com | About')
+                | About
+            div
+              a(href='/dashboard', title='bench805.com | Benchmarking')
+                | Benchmarking
+            div
+              a(href='mailto:info@bench805.com?subject=Feedback', target='_blank', title='bench805.com | Get in Touch')
+                | Get in Touch
+    else
+      .header_right_tool
+        // visible blog logged or not
+        if title == 'Result'
+          .btn_filters_vis
+        .btn_user_tool_vis
+        .usertool.align_c
+          .h_login_box
+            .login_btn
+              a(href='/users/login') Log In
+            .sign_up_btn
+              a(href='/users/signup') Sign Up
+        .btn_menu_vis
+        nav.header_menu
+          div
+            a(href='/about', title='bench805.com | About')
+              | About
+          div
+            a(href='mailto:info@bench805.com?subject=Feedback', target='_blank', title='bench805.com | Get in Touch')
+              | Get in Touch

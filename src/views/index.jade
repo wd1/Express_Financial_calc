@@ -1,0 +1,191 @@
+extends layout
+
+block content
+  .page_body.main_page
+    // BIG VIDEO
+    section.greeting_section
+      .resolution.align_c
+        .main_greeting.color_w
+          .hn1.wow.fadeInDown.option-2(style='visibility: visible; animation-name: fadeInDown;')
+            h1 Purchase Price Allocations
+          .hn2.wow.fadeInUp.option-3(style='visibility: visible; animation-name: fadeInUp;')
+            h2 Visualized Through Benchmarking
+          br
+          .btn_color_fill.wow.fadeInUp.option-4(style='visibility: visible; animation-name: fadeInUp;')
+            a(href='/users/signup') Get Started for Free
+      .arrow_down.slowjump
+      .video_container
+        video#video_bg(poster=' ', autoplay='', loop='', muted='', tabindex='0')
+          source(src='video/bg_video.mp4', type='video/mp4')
+    // What is bench805.com?
+    section.padding_top_bottom.main_wi_section
+      .resolution.padding_lr
+        .hn2.ta_c
+          h2 What is bench805.com?
+        br
+        br
+        .columns_3_container.clrfx
+          .wow.fadeInLeft(style='visibility: hidden; animation-name: none;')
+            div
+              .img_icn.icon-icon_main_01
+                img(src="images/svg/icon_main_01.svg" width="140" height="140")
+            div
+              .hn3
+                h3 VALUATION
+              div
+                | Quickly estimate valuations of intangible assets, tangible assets and goodwill.
+          .wow.fadeInUp(style='visibility: hidden; animation-name: none;')
+            div
+              .img_icn.icon-icon_main_02
+                img(src="images/svg/icon_main_02.svg" width="140" height="140")
+            div
+              .hn3
+                h3 GUIDANCE
+              div
+                p
+                  | Benchmark your own analysis against comparable purchase price allocations.
+                br
+                p
+                  | Develop guiding assumptions for intangible asset amortization and  impairment.
+          .wow.fadeInRight(style='visibility: hidden; animation-name: none;')
+            div
+              .img_icn.icon-icon_main_03
+                img(src="images/svg/icon_main_03.svg" width="140" height="140")
+            div
+              .hn3
+                h3 REVIEW
+              div
+                | Scrutinize purchase price allocations developed by valuation firms, management.
+        br
+        br
+    // Bench805.com by the numbers
+    section.padding_top_bottom.main_factlist
+      .resolution.padding_lr.color_w
+        .hn2.ta_c
+          h2 Bench805.com by the numbers
+        br
+        br
+        .columns_3_container.clrfx
+          .wow.fadeInUp.option-2(style='visibility: hidden; animation-name: none;')
+            div
+              .img_icn.icon-icon_main_04
+                img(src="images/svg/icon_main_04.svg" width="140" height="140")
+            div
+              .hn3
+                h3 OVER
+              div
+                | 1,500 transactions
+                br
+                |                                 in the database
+          .wow.fadeInUp.option-1(style='visibility: hidden; animation-name: none;')
+            div
+              .img_icn.icon-icon_main_05
+                img(src="images/svg/icon_main_05.svg" width="140" height="140")
+            div
+              .hn3
+                h3 INDUSTRIES
+              div
+                p
+                  | 50+ narrowly defined
+                  br
+                  |                                     industry categories
+          .wow.fadeInUp.option-3(style='visibility: hidden; animation-name: none;')
+            div
+              .img_icn.icon-icon_main_06
+                img(src="images/svg/icon_main_06.svg" width="140" height="140")
+            div
+              .hn3
+                h3 YEARS
+              div
+                | 2015
+                br
+                |                                 2016
+    // Purchase Price Allocation in Different Industries
+    section.padding_top_bottom
+      .resolution.padding_lr.mwidth_840
+        .hn2.ta_c
+          h2 Purchase Price Allocation in Different Industries
+        br
+        br
+        .hiw_gallery.clrfx
+          .wow.fadeIn.option-1(style='visibility: hidden; animation-name: none;')
+            .imgfit
+              img(src='/images/img_purchase_01.jpg', alt='Bench805.com | Technology')
+            .hn3
+              h3 Technology
+          .wow.fadeIn.option-2(style='visibility: hidden; animation-name: none;')
+            .imgfit
+              img(src='/images/img_purchase_02.jpg', alt='Bench805.com | Healthcare	')
+            .hn3
+              h3 Healthcare&#x9;
+          .wow.fadeIn.option-3(style='visibility: hidden; animation-name: none;')
+            .imgfit
+              img(src='/images/img_purchase_03.jpg', alt='Bench805.com | Consumer Products')
+            .hn3
+              h3 Consumer Products
+          .wow.fadeIn.option-4(style='visibility: hidden; animation-name: none;')
+            .imgfit
+              img(src='/images/img_purchase_04.jpg', alt='Bench805.com | Financial Services')
+            .hn3
+              h3 Financial Services
+          .wow.fadeIn.option-5(style='visibility: hidden; animation-name: none;')
+            .imgfit
+              img(src='/images/img_purchase_05.jpg', alt='Bench805.com | Telecommunications')
+            .hn3
+              h3 Telecommunications
+          .wow.fadeIn.option-6(style='visibility: hidden; animation-name: none;')
+            .imgfit
+              img(src='/images/img_purchase_06.jpg', alt='Bench805.com | Industrials')
+            .hn3
+              h3 Industrials
+    // How It Works
+    section.padding_top_bottom.howitwork_section
+      .resolution.padding_lr
+        .hn2.ta_c.color_w
+          h2 How It Works
+        br
+        br
+        br
+        .main_steps.clrfx
+          .clrfx.wow.fadeInLeft.option-1(style='visibility: hidden; animation-name: none;')
+            div
+              span Step 1
+              span 1
+            div
+              .btn_color_fill
+                a(href='/users/signup') Sign Up
+          .clrfx.wow.fadeInRight.option-2(style='visibility: hidden; animation-name: none;')
+            div
+              span Step 2
+              span 2
+            div
+              div
+                | Select your filters such as:
+                br
+                span industry, intangible asset inclusion/exclusion, keywords
+          .clrfx.wow.fadeInLeft.option-3(style='visibility: hidden; animation-name: none;')
+            div
+              span Step 3
+              span 3
+            div
+              div
+                | Observe summary data such as:
+                br
+                span
+                  | valuation percent allocations, useful lives, and number of available observations
+    // Access exclusive data to guide your next purchase price allocation (ASC 805 or IFRS 3)
+    section.padding_top_bottom
+      .resolution.padding_lr.mwidth_840
+        .hn2.ta_c.wow.fadeInDown.option-1(style='visibility: hidden; animation-name: none;')
+          h2
+            | Access exclusive data to guide your next purchase price allocation (ASC 805 or IFRS 3)
+        br
+        br
+        .btn_color_fill.wow.fadeInUp.option-4(style='visibility: hidden; animation-name: none;')
+          a(href='/users/signup') Get Started for Free
+  // page-body
+  // #main-container
+  span.gr__tooltip
+  span.gr__tooltip-content
+  i.gr__tooltip-logo
+  span.gr__triangle

@@ -1,0 +1,54 @@
+extends ../../layout
+
+block content
+
+  .page_body.padding_top_header
+
+    // Sign Up
+    section.sign_up_section.mwidth_680
+      .resolution.padding_lr
+        .hn2.ta_c
+          h1 Sign Up
+        .ta_c
+          | Please sign up to  get access to information
+        ul.error
+          if errors
+            each error, i in errors
+              li #{error.msg}
+        != messages()
+
+        br
+        .mwidth_320
+
+          form.form_signup.form_style_1(action='/users/signup', novalidate='novalidate', method='post')
+            div
+              input(type='text', placeholder='First name*', name='firstname', required='', aria-required='true', value='#{firstname ? firstname : ""}')
+            div
+              input(type='text', placeholder='Last name*', name='lastname', required='', aria-required='true', value='#{lastname ? lastname : ""}')
+            div
+              input(type='email', placeholder='Email*', name='email', required='', aria-required='true', value='#{email ? email : ""}')
+            div
+              input(type='text', placeholder='Company', name='company', value='#{company ? company : ""}')
+            .custom_select_container
+              select(name='jobfunction', required='', aria-required='true')
+                option(value='') Job function*
+                option(value='job_1') Valuation Specialist
+                option(value='job_2') Auditor
+                option(value='job_3') Finance Executive
+                option(value='job_4') Press
+                option(value='job_5') Government
+                option(value='job_6') Other
+            div
+              input#password(type='password', placeholder='Password*', name='password', required='', aria-required='true')
+            div
+              input(type='password', placeholder='Confirm password*', name='password2', required='', aria-required='true')
+            .form_footer
+              .form_footer_info.ta_c
+                | By clicking &ldquo;Sign up&rdquo; I agree to
+                br
+                a(href='/terms_of_service') Terms of Service
+              .form_footer_btns.two_buttons.clrfx
+                .btn_color_space
+                  a(href='/users/login') Log In
+                .btn_color_fill
+                  button(type='submit') Sign Up

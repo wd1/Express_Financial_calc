@@ -1,0 +1,30 @@
+extends ../layout
+
+block content
+  .page_body.padding_top_header
+    section.sign_up_section.mwidth_680
+
+      .resolution.padding_lr
+        .hn2.ta_c
+          h1 Log In
+        != messages()
+
+        br
+        .mwidth_320
+          form.form_login.form_style_1(action='/users/login', novalidate='novalidate', method='post')
+
+
+
+            div
+              input(type='email', placeholder='Email', name='email', required='', aria-required='true')
+            div
+              input(type='password', placeholder='Password', name='password', required='', aria-required='true')
+            .form_footer
+              .form_footer_btns
+                .btn_color_fill
+                  button(type='submit') Log In
+              div
+                a(href='/users/resetpassword') Forgot password?
+              div(style='float: right')
+                input(type='checkbox', value='remember-me', id='rememberMeCheckbox', style='background: #f39b12')
+                label(for='rememberMeCheckbox', style=' color: #f39b12; top:-20px;') Remember me
