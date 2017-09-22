@@ -52,7 +52,6 @@ saveTrackData(data, () => {
     // Caculations Procedure
 
     sheetMAIN = results;
-
     k = 0; //k: 0 = Contingent Consideration, 1 - Goodwill, 2 - Inventory, 3 - PPE
 
     for(k=0; k<=3; k++) {
@@ -240,6 +239,8 @@ saveTrackData(data, () => {
 
         Industry = Cells(sheetMAIN, 3 + i, 6);
         Discr = Cells(sheetMAIN, 3 + i, 8);
+        Year = Cells(sheetMAIN, 3+i, 4);
+        Year = Year.substring(Year.length-2, Year.length);
 
       //counting total industry observations
         if(compareIndustries(Industry,selected_industries)) {
@@ -519,7 +520,7 @@ saveTrackData(data, () => {
           break;
       }
     }
-    console.log({ title: 'Result', result_count: result_count,tabledata: sheet, checkedids1: reqdata.checkedids1, checkedids: reqdata.checkedids, keyword1: reqdata.keyword[0], keyword2: reqdata.keyword[1] });
+    // console.log({ title: 'Result', result_count: result_count,tabledata: sheet, checkedids1: reqdata.checkedids1, checkedids: reqdata.checkedids, keyword1: reqdata.keyword[0], keyword2: reqdata.keyword[1] });
     res.render('dashboard/index', { title: 'Result', result_count: result_count, tabledata: sheet, checkedids1: reqdata.checkedids1, checkedids: reqdata.checkedids, keyword1: reqdata.keyword[0], keyword2: reqdata.keyword[1], preliminary: reqdata.preliminary? true:false});
 
   });
@@ -716,7 +717,6 @@ const RightTrans = (reqdata, sheet, Industry, Discr, i, Year) => {
     if(Cells(sheet, i, 45) == 'Preliminary')
       P = 0;
   }
-  
   if(A * B1 * B2 * C * D1 * D2 * Y1 * Y2 * P > 0)
     retRightTrans = 1;
 
