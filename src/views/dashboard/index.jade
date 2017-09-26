@@ -24,10 +24,11 @@ block content
             getCheckedIDs();
           }
         }
+        $('#preliminary').attr('checked', '#{preliminary}'=='true');
       }
       $('#id18').val('#{keyword1}');
       $('#id19').val('#{keyword2}');
-      $('#preliminary').attr('checked', '#{preliminary}'=='true');
+      //
       
       $('.popupBody input[type=checkbox]').change(function() {
         console.log('ssss');
@@ -565,7 +566,7 @@ block content
                       input#idyear2016(type='checkbox', name='year[]', value='16')
                       label(for='idyear2016') 2016
             div
-              input#preliminary(type='checkbox', name='preliminary', value='preliminary')
+              input#preliminary(type='checkbox', name='preliminary', value='preliminary', checked='true')
               label#preliminary_label(for='preliminary') Include Preliminary
             .form_footer
               //
@@ -577,14 +578,15 @@ block content
         
         // RESPONSIVE TABLE
         .responsive_table.tabs.mobile_table(style='min-height: 338px;')
-          .tabs_list.clrfx
+          .tabs_list.clrfx(style='font-weight: bold;')
             .tab_btn_1.active ALLOCATION
             .tab_btn_3 USEFULL LIVES
             .tab_btn_2 AVAILABLE DATAPOINTS
 
           .tabs_content
-            div
-              .tr_name(style='vertical-align:bottom; padding-bottom: 20px;') Business Combinations
+            div(style='font-weight: bold;')
+              .tr_name(style='vertical-align:bottom; padding-bottom: 20px;') 
+                span(style="visibility:hidden") Business Combinations
               .tabs_box
                 .tab_1.active(style='width: 100%;')
                   div(style='width: 33.3333%;display: inline-block;') 
@@ -624,34 +626,6 @@ block content
                       p(style='vertical-align:bottom;display:table-cell;') Total In This Industry
             if tabledata
               div
-                .tr_name Inventory
-                .tabs_box
-                  .tab_1.active(style='width: 100%;')
-                    div(style='width: 33.3333%;') #{tabledata['38_4'] ? tabledata['38_4'] : 0}
-                    div(style='width: 33.3333%;') #{tabledata['38_5'] ? tabledata['38_5'] : 0}
-                    div(style='width: 33.3333%;') #{tabledata['38_7'] ? tabledata['38_7'] : 0}
-                  .tab_3(style='width: 100%; display: none;')
-                    div(style='width: 100%;') na
-                  .tab_2(style='width: 100%; display: none;')
-                    div(style='width: 25%;') #{tabledata['38_14'] ? tabledata['38_14'] : 0}
-                    div(style='width: 25%;') #{tabledata['38_15'] ? tabledata['38_15'] : 0}
-                    div(style='width: 25%;') #{tabledata['38_17'] ? tabledata['38_17'] : 0}
-                    div(style='width: 25%;') #{tabledata['38_18'] ? tabledata['38_18'] : 0}
-              div
-                .tr_name Property, Plant and Equipment
-                .tabs_box
-                  .tab_1.active(style='width: 100%;')
-                    div(style='width: 33.3333%;') #{tabledata['39_4'] ? tabledata['39_4'] : 0}
-                    div(style='width: 33.3333%;') #{tabledata['39_5'] ? tabledata['39_5'] : 0}
-                    div(style='width: 33.3333%;') #{tabledata['39_7'] ? tabledata['39_7'] : 0}
-                  .tab_3(style='width: 100%; display: none;')
-                    div(style='width: 100%;') na
-                  .tab_2(style='width: 100%; display: none;')
-                    div(style='width: 25%;') #{tabledata['39_14'] ? tabledata['39_14'] : 0}
-                    div(style='width: 25%;') #{tabledata['39_15'] ? tabledata['39_15'] : 0}
-                    div(style='width: 25%;') #{tabledata['39_17'] ? tabledata['39_17'] : 0}
-                    div(style='width: 25%;') #{tabledata['39_18'] ? tabledata['39_18'] : 0}
-              div
                 .tr_name Goodwill
                 .tabs_box
                   .tab_1.active(style='width: 100%;')
@@ -665,6 +639,7 @@ block content
                     div(style='width: 25%;') #{tabledata['17_15'] ? tabledata['17_15'] : 0}
                     div(style='width: 25%;') #{tabledata['17_17'] ? tabledata['17_17'] : 0}
                     div(style='width: 25%;') #{tabledata['17_18'] ? tabledata['17_18'] : 0}
+
             - for (var i = 0; i < result_count; ++i) {
             - if((i != 6) && (i != 8) && (i != 9) ) {
               div
@@ -686,6 +661,52 @@ block content
                     div(style='width: 25%;') #{tabledata[(30+i)+'_18'] ? tabledata[(30+i)+'_18'] : 0}
             - }
             - }
+            if tabledata
+              div(style="")
+                .tr_name(style="padding: 0px;border-top:2px solid black")
+                .tabs_box(style="border-top:2px solid black")
+              div
+                .tr_name Contingent Consideration
+                .tabs_box
+                  .tab_1.active(style='width: 100%;')
+                    div(style='width: 33.3333%;') #{tabledata['15_4'] ? tabledata['15_4'] : 0}
+                    div(style='width: 33.3333%;') #{tabledata['15_5'] ? tabledata['15_5'] : 0}
+                    div(style='width: 33.3333%;') #{tabledata['15_7'] ? tabledata['15_7'] : 0}
+                  .tab_3(style='width: 100%; display: none;')
+                    div(style='width: 100%;') Indefinite
+                  .tab_2(style='width: 100%; display: none;')
+                    div(style='width: 25%;') #{tabledata['15_14'] ? tabledata['15_14'] : 0}
+                    div(style='width: 25%;') #{tabledata['15_15'] ? tabledata['15_15'] : 0}
+                    div(style='width: 25%;') #{tabledata['15_17'] ? tabledata['15_17'] : 0}
+                    div(style='width: 25%;') #{tabledata['15_18'] ? tabledata['15_18'] : 0}
+              div
+                .tr_name Inventory
+                .tabs_box
+                  .tab_1.active(style='width: 100%;')
+                    div(style='width: 33.3333%;') #{tabledata['38_4'] ? tabledata['38_4'] : 0}
+                    div(style='width: 33.3333%;') #{tabledata['38_5'] ? tabledata['38_5'] : 0}
+                    div(style='width: 33.3333%;') #{tabledata['38_7'] ? tabledata['38_7'] : 0}
+                  .tab_3(style='width: 100%; display: none;')
+                    div(style='width: 100%;') na
+                  .tab_2(style='width: 100%; display: none;')
+                    div(style='width: 25%;') #{tabledata['38_14'] ? tabledata['38_14'] : 0}
+                    div(style='width: 25%;') #{tabledata['38_15'] ? tabledata['38_15'] : 0}
+                    div(style='width: 25%;') #{tabledata['38_17'] ? tabledata['38_17'] : 0}
+                    div(style='width: 25%;') #{tabledata['38_18'] ? tabledata['38_18'] : 0}
+              div
+                .tr_name Fixed Assets
+                .tabs_box
+                  .tab_1.active(style='width: 100%;')
+                    div(style='width: 33.3333%;') #{tabledata['39_4'] ? tabledata['39_4'] : 0}
+                    div(style='width: 33.3333%;') #{tabledata['39_5'] ? tabledata['39_5'] : 0}
+                    div(style='width: 33.3333%;') #{tabledata['39_7'] ? tabledata['39_7'] : 0}
+                  .tab_3(style='width: 100%; display: none;')
+                    div(style='width: 100%;') na
+                  .tab_2(style='width: 100%; display: none;')
+                    div(style='width: 25%;') #{tabledata['39_14'] ? tabledata['39_14'] : 0}
+                    div(style='width: 25%;') #{tabledata['39_15'] ? tabledata['39_15'] : 0}
+                    div(style='width: 25%;') #{tabledata['39_17'] ? tabledata['39_17'] : 0}
+                    div(style='width: 25%;') #{tabledata['39_18'] ? tabledata['39_18'] : 0}
               //- div
               //-   .tr_name #{tabledata['30_2']}
               //-   .tabs_box
