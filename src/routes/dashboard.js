@@ -46,7 +46,52 @@ router.post('/', (req, res) => {
       // Industry1 = reqdata.industries[0];
       // Industry2 = reqdata.industries[1];
     }
-
+    // Drill Procedure
+      if((reqdata.not_financial_flag == 'true') && (reqdata.financial_flag == 'true')) {
+        result_count = 14;
+        sheet[30+'_'+2] = 'Developed Technology';
+        sheet[31+'_'+2] = 'In-Process R&D';
+        sheet[32+'_'+2] = 'Customer Relationships';
+        sheet[33+'_'+2] = 'Trade Name';
+        sheet[34+'_'+2] = 'Backlog';
+        sheet[35+'_'+2] = 'Non-Compete Agreement';
+        sheet[37+'_'+2] = 'Contracts';
+        sheet[38+'_'+2] = 'Others';
+        sheet[39+'_'+2] = 'Core Deposit Intangibles';
+        sheet[40+'_'+2] = 'Insurance, Other Licenses';
+        sheet[41+'_'+2] = 'Servicing Rights';
+        sheet[36+'_'+2] = 'NA';
+      }
+      if ((reqdata.financial_flag == 'true') && (reqdata.not_financial_flag == 'false')) {
+        result_count = 12;
+        sheet[30+'_'+2] = 'Developed Technology';
+        sheet[31+'_'+2] = 'Customer Relationships';
+        sheet[32+'_'+2] = 'Trade Name';
+        sheet[33+'_'+2] = 'Non-Compete Agreement';
+        // sheet[34+'_'+2] = 'Others';
+        // sheet[35+'_'+2] = 'Contracts';
+//         Others	25% 39% 34% 5.5 0.8 3 na 9 11 12 12
+// Contracts	32%35%37%7.97.82na3333
+        sheet[34+'_'+2] = 'Contracts';
+        sheet[35+'_'+2] = 'Others';
+        sheet[37+'_'+2] = 'Core Deposit Intangibles';
+        sheet[38+'_'+2] = 'Insurance, Other Licenses';
+        sheet[39+'_'+2] = 'Servicing Rights';
+        sheet[36+'_'+2] = 'NA';
+      }
+      if((reqdata.financial_flag == 'false')){
+        result_count = 11;
+        sheet[30+'_'+2] = 'Developed Technology';
+        sheet[31+'_'+2] = 'In-Process R&D';
+        sheet[32+'_'+2] = 'Customer Relationships';
+        sheet[33+'_'+2] = 'Trade Name';
+        sheet[34+'_'+2] = 'Backlog';
+        sheet[36+'_'+2] = 'NA';
+        sheet[35+'_'+2] = 'Non-Compete Agreement';
+        sheet[37+'_'+2] = 'Contracts';
+        sheet[38+'_'+2] = 'Others';
+        
+      }
 
 
     fetchTableData((results) => {
@@ -65,7 +110,7 @@ router.post('/', (req, res) => {
         CC = 0;
         INV = 0;
         PPE = 0;
-
+        
         //j(): 1-PC, 2-net assets, 3-net assets net cash, 4-excess consideration
         while(Industry != undefined) {
 
@@ -140,25 +185,25 @@ router.post('/', (req, res) => {
 
           sheet[15+ '_' +18] = CC;
           sheet[17+ '_' +18] = GW;
-          sheet[38+ '_' +18] = INV;
-          sheet[39+ '_' +18] = PPE;
+          sheet[(30+result_count-2)+ '_' +18] = INV;
+          sheet[(30+result_count-1)+ '_' +18] = PPE;
 
         } else {
 
-          sheet[(36 + k) + '_' + 4] = median(GW_PC);
-          sheet[(36 + k) + '_' + 5] = median(GW_NA);
-          sheet[(36 + k) + '_' + 6] = median(GW_NANC);
-          sheet[(36 + k) + '_' + 7] = median(GW_EC);
+          sheet[(30+result_count-4 + k) + '_' + 4] = median(GW_PC);
+          sheet[(30+result_count-4 + k) + '_' + 5] = median(GW_NA);
+          sheet[(30+result_count-4 + k) + '_' + 6] = median(GW_NANC);
+          sheet[(30+result_count-4 + k) + '_' + 7] = median(GW_EC);
 
-          sheet[(36 + k) + '_' + 9] = stDev(GW_PC);
-          sheet[(36 + k) + '_' + 10] = stDev(GW_NA);
-          sheet[(36 + k) + '_' + 11] = stDev(GW_NANC);
-          sheet[(36 + k) + '_' + 12] = stDev(GW_EC);
+          sheet[(30+result_count-4 + k) + '_' + 9] = stDev(GW_PC);
+          sheet[(30+result_count-4 + k) + '_' + 10] = stDev(GW_NA);
+          sheet[(30+result_count-4 + k) + '_' + 11] = stDev(GW_NANC);
+          sheet[(30+result_count-4 + k) + '_' + 12] = stDev(GW_EC);
 
-          sheet[(36 + k) + '_' + 14] = count(GW_PC);
-          sheet[(36 + k) + '_' + 15] = count(GW_NA);
-          sheet[(36 + k) + '_' + 16] = count(GW_NANC);
-          sheet[(36 + k) + '_' + 17] = count(GW_EC);
+          sheet[(30+result_count-4 + k) + '_' + 14] = count(GW_PC);
+          sheet[(30+result_count-4 + k) + '_' + 15] = count(GW_NA);
+          sheet[(30+result_count-4 + k) + '_' + 16] = count(GW_NANC);
+          sheet[(30+result_count-4 + k) + '_' + 17] = count(GW_EC);
 
         }
 
@@ -167,48 +212,7 @@ router.post('/', (req, res) => {
       }
 
 
-      // Drill Procedure
-      if((reqdata.not_financial_flag == 'true') && (reqdata.financial_flag == 'true')) {
-        result_count = 14;
-        sheet[30+'_'+2] = 'Developed Technology';
-        sheet[31+'_'+2] = 'In-Process R&D';
-        sheet[32+'_'+2] = 'Customer Relationships';
-        sheet[33+'_'+2] = 'Trade Name';
-        sheet[34+'_'+2] = 'Backlog';
-        sheet[35+'_'+2] = 'Non-Compete Agreement';
-        sheet[37+'_'+2] = 'Contracts';
-        sheet[40+'_'+2] = 'Others';
-        sheet[41+'_'+2] = 'Core Deposit Intangibles';
-        sheet[42+'_'+2] = 'Insurance, Other Licenses';
-        sheet[43+'_'+2] = 'Servicing Rights';
-        sheet[36+'_'+2] = 'NA';
-      }
-      if ((reqdata.financial_flag == 'true') && (reqdata.not_financial_flag == 'false')) {
-        result_count = 12;
-        sheet[30+'_'+2] = 'Developed Technology';
-        sheet[31+'_'+2] = 'Customer Relationships';
-        sheet[32+'_'+2] = 'Trade Name';
-        sheet[33+'_'+2] = 'Non-Compete Agreement';
-        sheet[34+'_'+2] = 'Contracts';
-        sheet[35+'_'+2] = 'Others';
-        sheet[37+'_'+2] = 'Core Deposit Intangibles';
-        sheet[40+'_'+2] = 'Insurance, Other Licenses';
-        sheet[41+'_'+2] = 'Servicing Rights';
-        sheet[36+'_'+2] = 'NA';
-      }
-      if((reqdata.financial_flag == 'false')){
-        result_count = 11;
-        sheet[30+'_'+2] = 'Developed Technology';
-        sheet[31+'_'+2] = 'In-Process R&D';
-        sheet[32+'_'+2] = 'Customer Relationships';
-        sheet[33+'_'+2] = 'Trade Name';
-        sheet[34+'_'+2] = 'Backlog';
-        sheet[36+'_'+2] = 'NA';
-        sheet[35+'_'+2] = 'Non-Compete Agreement';
-        sheet[37+'_'+2] = 'Contracts';
-        sheet[40+'_'+2] = 'Others';
-        
-      }
+      
       // result_count = 7;
       // sheet[30+'_'+2] = 'Developed Technology';
       // sheet[31+'_'+2] = 'In-Process R&D';
@@ -322,7 +326,7 @@ router.post('/', (req, res) => {
           Asset_NANC.push(Asset_All[l+'_'+2]);
           Asset_EC.push(Asset_All[l+'_'+3]);
         }
-        // console.log(A);
+        console.log(A);
         // console.log(Asset);
         sheet[(30 + A) + '_' + 4]    = median(Asset_PC);
         sheet[(30 + A) + '_' + 9]    = stDev(Asset_PC);
@@ -451,26 +455,26 @@ router.post('/', (req, res) => {
           case '36_11':
           case '36_12':
 
-          case '38_4':
-          case '38_5':
-          case '38_6':
-          case '38_9':
-          case '38_10':
-          case '38_11':
-          case '38_12':
+          case (30+result_count-2)+'_4':
+          case (30+result_count-2)+'_5':
+          case (30+result_count-2)+'_6':
+          case (30+result_count-2)+'_9':
+          case (30+result_count-2)+'_10':
+          case (30+result_count-2)+'_11':
+          case (30+result_count-2)+'_12':
 
-          case '39_4':
-          case '39_5':
-          case '39_6':
-          case '39_9':
-          case '39_10':
-          case '39_11':
-          case '39_12':
+          case (30+result_count-1)+'_4':
+          case (30+result_count-1)+'_5':
+          case (30+result_count-1)+'_6':
+          case (30+result_count-1)+'_9':
+          case (30+result_count-1)+'_10':
+          case (30+result_count-1)+'_11':
+          case (30+result_count-1)+'_12':
             sheet[key] = Math.round(sheet[key] * 100) + '%';
             break;
 
-          case '38_7':
-          case '39_7':
+          case (30+result_count-2)+'_7':
+          case (30+result_count-1)+'_7':
             sheet[key] = Math.round(sheet[key] * 100)/100 + 'x';
             break;
 
@@ -522,7 +526,7 @@ router.post('/', (req, res) => {
             break;
         }
       }
-      // console.log({ title: 'Result', result_count: result_count,tabledata: sheet, checkedids1: reqdata.checkedids1, checkedids: reqdata.checkedids, keyword1: reqdata.keyword[0], keyword2: reqdata.keyword[1] });
+      console.log({ title: 'Result', result_count: result_count,tabledata: sheet, checkedids1: reqdata.checkedids1, checkedids: reqdata.checkedids, keyword1: reqdata.keyword[0], keyword2: reqdata.keyword[1] });
       res.render('dashboard/index', { title: 'Result', result_count: result_count, tabledata: sheet, checkedids1: reqdata.checkedids1, checkedids: reqdata.checkedids, keyword1: reqdata.keyword[0], keyword2: reqdata.keyword[1], preliminary: reqdata.preliminary? true:false});
 
     });
