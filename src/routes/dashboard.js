@@ -691,7 +691,7 @@ const RightTrans = (reqdata, sheet, Industry, Discr, i, Year) => {
 
   let retRightTrans;
 
-  let A, B1, B2, C, D1, D2,Y1,Y2,P, j;
+  let A, B1, B2, C, D1, D2,Y1,Y2,P, j, E;
 
   let Industry1, Industry2, Industry3, KeyWord1, KeyWord2, Intangible1, Intangible2, IntangibleX1, IntangibleX2;
   let Year1, Year2;
@@ -732,6 +732,7 @@ const RightTrans = (reqdata, sheet, Industry, Discr, i, Year) => {
   Y1 = 0;
   Y2 = 0;
   P = 1;
+  E = 0;
   //checking industry
   if(compareIndustries(Industry,selected_industries))
     A = 1;
@@ -790,13 +791,18 @@ const RightTrans = (reqdata, sheet, Industry, Discr, i, Year) => {
       Y2 = 0;
     } 
   }
-
+  
+  for(j=0; j<34; j++) {
+    if((!isNaN(Cells(sheet, i, 9+j))) == true && (parseInt(Cells(sheet, i, 9+j)) != 0) && (Cells(sheet, i, 9+j) != '')) {
+      E = 1;
+    }
+  }
   if(reqdata.preliminary == "NA" || reqdata.preliminary == undefined) {
     if(Cells(sheet, i, 45) == 'Preliminary') {
       P = 0;
     }
   }
-  if(A * B1 * B2 * C * D1 * D2 * Y1 * Y2 * P > 0)
+  if(A * B1 * B2 * C * D1 * D2 * Y1 * Y2 * P * E > 0)
     retRightTrans = 1;
 
   return retRightTrans;
