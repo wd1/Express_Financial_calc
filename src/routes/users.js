@@ -74,7 +74,7 @@ router.post('/signup', function(req, res) {
               to: email,
               subject: domainConfig + ' Activation Link',
               text: 'Hello '+firstname+',Thank you for your registering at '+ domainConfig +'. Please click on the link to complete your activation: '+domainConfig+'/activate/'+temporaryToken,
-              html: 'Hello <strong>'+firstname+'</strong>,<br><br>Thank you for your registering at '+ domainConfig +'. Please click on the link to complete your activation: <br><br><a href="'+domainConfig+'/activate/'+temporaryToken+'">'+domainConfig+'/activate</a>'
+              html: 'Hello <strong>'+firstname+'</strong>,<br><br>Thank you for your registering at '+ domainConfig +'. Please click on the link to complete your activation: <br><br><a href="'+domainConfig+'activate/'+temporaryToken+'">'+domainConfig+'activate</a>'
             }
 
             mailTransporter.sendMail(emailOptions, (error, info) => {
@@ -214,7 +214,7 @@ router.post('/resetpassword', (req, res) => {
               to: user.email,
               subject: 'Reset Password Request',
               text: 'Hello '+user.firstname+', You recently request a password reset link. Please click on the following link to complete your activation: '+ domainConfig +'/resetpassword/'+resetToken,
-              html: 'Hello <strong>'+user.firstname+'</strong>,<br><br>You recently request a password reset link. Please click on the following link to complete your activation: <br><br><a href="'+ domainConfig +'/resetpassword/'+resetToken+'">'+ domainConfig +'/resetpassword/</a>'
+              html: 'Hello <strong>'+user.firstname+'</strong>,<br><br>You recently request a password reset link. Please click on the following link to complete your activation: <br><br><a href="'+ domainConfig +'resetpassword/'+resetToken+'">'+ domainConfig +'resetpassword/</a>'
             }
             mailTransporter.sendMail(emailOptions, (error, info) => {
               if(error) {

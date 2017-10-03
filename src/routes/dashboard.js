@@ -52,9 +52,9 @@ router.post('/', (req, res) => {
         sheet[30+'_'+2] = 'Developed Technology';
         sheet[31+'_'+2] = 'In-Process R&D';
         sheet[32+'_'+2] = 'Customer Relationships';
-        sheet[33+'_'+2] = 'Trade Name';
+        sheet[33+'_'+2] = 'Trade Names';
         sheet[34+'_'+2] = 'Backlog';
-        sheet[35+'_'+2] = 'Non-Compete Agreement';
+        sheet[35+'_'+2] = 'Non-Compete Agreements';
         sheet[37+'_'+2] = 'Contracts';
         sheet[38+'_'+2] = 'Others';
         sheet[39+'_'+2] = 'Core Deposit Intangibles';
@@ -66,8 +66,8 @@ router.post('/', (req, res) => {
         result_count = 12;
         sheet[30+'_'+2] = 'Developed Technology';
         sheet[31+'_'+2] = 'Customer Relationships';
-        sheet[32+'_'+2] = 'Trade Name';
-        sheet[33+'_'+2] = 'Non-Compete Agreement';
+        sheet[32+'_'+2] = 'Trade Names';
+        sheet[33+'_'+2] = 'Non-Compete Agreements';
         // sheet[34+'_'+2] = 'Others';
         // sheet[35+'_'+2] = 'Contracts';
 //         Others	25% 39% 34% 5.5 0.8 3 na 9 11 12 12
@@ -84,10 +84,10 @@ router.post('/', (req, res) => {
         sheet[30+'_'+2] = 'Developed Technology';
         sheet[31+'_'+2] = 'In-Process R&D';
         sheet[32+'_'+2] = 'Customer Relationships';
-        sheet[33+'_'+2] = 'Trade Name';
+        sheet[33+'_'+2] = 'Trade Names';
         sheet[34+'_'+2] = 'Backlog';
         sheet[36+'_'+2] = 'NA';
-        sheet[35+'_'+2] = 'Non-Compete Agreement';
+        sheet[35+'_'+2] = 'Non-Compete Agreements';
         sheet[37+'_'+2] = 'Contracts';
         sheet[38+'_'+2] = 'Others';
         
@@ -329,6 +329,7 @@ router.post('/', (req, res) => {
         console.log(A);
         // console.log(Asset);
         sheet[(30 + A) + '_' + 4]    = median(Asset_PC);
+        // sheet[(30 + A) + '_' + 4]    = (sheet[(30 + A) + '_' + 4]+"").length>4 ? (sheet[(30 + A) + '_' + 4]+"").substring(0,4) : (sheet[(30 + A) + '_' + 4]+"") ;
         sheet[(30 + A) + '_' + 9]    = stDev(Asset_PC);
         sheet[(30 + A) + '_' + 14]   = count(Asset_PC);
 
@@ -455,6 +456,51 @@ router.post('/', (req, res) => {
           case '36_11':
           case '36_12':
 
+          case '37_4':
+          case '37_5':
+          case '37_6':
+          case '37_7':
+          case '37_9':
+          case '37_10':
+          case '37_11':
+          case '37_12':
+
+          case '38_4':
+          case '38_5':
+          case '38_6':
+          case '38_7':
+          case '38_9':
+          case '38_10':
+          case '38_11':
+          case '38_12':
+
+          case '39_4':
+          case '39_5':
+          case '39_6':
+          case '39_7':
+          case '39_9':
+          case '39_10':
+          case '39_11':
+          case '39_12':
+
+          case '40_4':
+          case '40_5':
+          case '40_6':
+          case '40_7':
+          case '40_9':
+          case '40_10':
+          case '40_11':
+          case '40_12':
+
+          case '41_4':
+          case '41_5':
+          case '41_6':
+          case '41_7':
+          case '41_9':
+          case '41_10':
+          case '41_11':
+          case '41_12':
+
           case (30+result_count-2)+'_4':
           case (30+result_count-2)+'_5':
           case (30+result_count-2)+'_6':
@@ -522,6 +568,31 @@ router.post('/', (req, res) => {
           case '36_21':
           case '36_22':
           case '36_23':
+
+          case '37_20':
+          case '37_21':
+          case '37_22':
+          case '37_23':
+
+          case '38_20':
+          case '38_21':
+          case '38_22':
+          case '38_23':
+
+          case '39_20':
+          case '39_21':
+          case '39_22':
+          case '39_23':
+
+          case '40_20':
+          case '40_21':
+          case '40_22':
+          case '40_23':
+
+          case '41_20':
+          case '41_21':
+          case '41_22':
+          case '41_23':
             sheet[key] = Math.round(sheet[key] * 10)/10;
             break;
         }
@@ -720,9 +791,10 @@ const RightTrans = (reqdata, sheet, Industry, Discr, i, Year) => {
     } 
   }
 
-  if(reqdata.preliminary == "NA" && reqdata.preliminary == undefined) {
-    if(Cells(sheet, i, 45) == 'Preliminary')
+  if(reqdata.preliminary == "NA" || reqdata.preliminary == undefined) {
+    if(Cells(sheet, i, 45) == 'Preliminary') {
       P = 0;
+    }
   }
   if(A * B1 * B2 * C * D1 * D2 * Y1 * Y2 * P > 0)
     retRightTrans = 1;
