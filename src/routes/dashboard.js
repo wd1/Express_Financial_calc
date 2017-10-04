@@ -121,14 +121,20 @@ router.post('/', (req, res) => {
           //this if-statement to count total industr observations
           
           if(compareIndustries(Industry,selected_industries)) {
-            if(Cells(sheetMAIN, 3 + i, 13) != 'na' && Cells(sheetMAIN, 3 + i, 18) != 0)
+            // if(Cells(sheetMAIN, 3 + i, 13) != 'na' && Cells(sheetMAIN, 3 + i, 18) != 0)
+            //   GW++;
+            // if(Cells(sheetMAIN, 3 + i, 12) != 'na')
+            //   CC++;
+            // if(Cells(sheetMAIN, 3 + i, 14) != 'na')
+            //   INV++;
+            // if(Cells(sheetMAIN, 3 + i, 15) != 'na')
+            //   PPE++;
+            if(Cells(sheetMAIN, 3 + i, 18) !=0 ) {
               GW++;
-            if(Cells(sheetMAIN, 3 + i, 12) != 'na')
               CC++;
-            if(Cells(sheetMAIN, 3 + i, 14) != 'na')
               INV++;
-            if(Cells(sheetMAIN, 3 + i, 15) != 'na')
               PPE++;
+            }
           }
 
           //starting main goodwill and contingent consideration stat calculations
@@ -139,17 +145,17 @@ router.post('/', (req, res) => {
             else
               EC = Number(Cells(sheetMAIN, 3 + i, 13)) + Number(Cells(sheetMAIN, 3 + i, 18)) + Number(Cells(sheetMAIN, 3 + i, 22)) + Number(Cells(sheetMAIN, 3 + i, 26)) + Number(Cells(sheetMAIN, 3 + i, 30)) + Number(Cells(sheetMAIN, 3 + i, 34)) + Number(Cells(sheetMAIN, 3 + i, 38));
 
-            if(Cells(sheetMAIN, 3 + i, 12 + k) == "na" || Cells(sheetMAIN, 3 + i, 12 + k) == 0 || EC == 0 || EC == Cells(sheetMAIN, 3 + i, 13))
-              GW_EC.push("Empty");
+            if(Cells(sheetMAIN, 3 + i, 12 + k) == "na" || (Cells(sheetMAIN, 3 + i, 12 + k)) == 0 || EC == 0 || EC == Cells(sheetMAIN, 3 + i, 13))
+                GW_EC.push("Empty");
             else
                 GW_EC.push(Number(Cells(sheetMAIN, 3 + i, 12 + k)) / EC);
 
-            if(Cells(sheetMAIN, 3 + i, 9) == "na" || Cells(sheetMAIN, 3 + i, 12 + k) == "na" || Cells(sheetMAIN, 3 + i, 12 + k) == 0)
+            if(Cells(sheetMAIN, 3 + i, 9) == "na" || (Cells(sheetMAIN, 3 + i, 9)) == 0 || Cells(sheetMAIN, 3 + i, 12 + k) == "na" || Cells(sheetMAIN, 3 + i, 12 + k) == 0)
                 GW_PC.push("Empty");
             else
                 GW_PC.push(Number(Cells(sheetMAIN, 3 + i, 12 + k)) / Number(Cells(sheetMAIN, 3 + i, 9)));
 
-            if(Cells(sheetMAIN, 3 + i, 10) == "na" || Cells(sheetMAIN, 3 + i, 12 + k) == "na" || Cells(sheetMAIN, 3 + i, 12 + k) == 0)
+            if(Cells(sheetMAIN, 3 + i, 10) == "na" || (Cells(sheetMAIN, 3 + i, 10)) == 0 || Cells(sheetMAIN, 3 + i, 12 + k) == "na" || Cells(sheetMAIN, 3 + i, 12 + k) == 0)
                 GW_NA.push("Empty");
             else
                 GW_NA.push(Number(Cells(sheetMAIN, 3 + i, 12 + k)) / Number(Cells(sheetMAIN, 3 + i, 10)));
@@ -172,7 +178,10 @@ router.post('/', (req, res) => {
           sheet[(15 + 2 * k) + '_' + 5] = median(GW_NA);
           sheet[(15 + 2 * k) + '_' + 6] = median(GW_NANC);
           sheet[(15 + 2 * k) + '_' + 7] = median(GW_EC);
-
+          // console.log(GW_EC);
+          // console.log(".");
+          // console.log(median(GW_EC));
+          // console.log("SDFSDF");
           sheet[(15 + 2 * k) + '_' + 9] = stDev(GW_PC);
           sheet[(15 + 2 * k) + '_' + 10] = stDev(GW_NA);
           sheet[(15 + 2 * k) + '_' + 11] = stDev(GW_NANC);
@@ -251,9 +260,10 @@ router.post('/', (req, res) => {
         //counting total industry observations
           if(compareIndustries(Industry,selected_industries)) {
 
-            if((Cells(sheetMAIN, 3 + i, 17) == Asset) || (Cells(sheetMAIN, 3 + i, 21) == Asset) || (Cells(sheetMAIN, 3 + i, 25) == Asset) || (Cells(sheetMAIN, 3 + i, 29) == Asset) || (Cells(sheetMAIN, 3 + i, 33) == Asset) || (Cells(sheetMAIN, 3 + i, 37) == Asset) )
+            // if((Cells(sheetMAIN, 3 + i, 17) == Asset) || (Cells(sheetMAIN, 3 + i, 21) == Asset) || (Cells(sheetMAIN, 3 + i, 25) == Asset) || (Cells(sheetMAIN, 3 + i, 29) == Asset) || (Cells(sheetMAIN, 3 + i, 33) == Asset) || (Cells(sheetMAIN, 3 + i, 37) == Asset) )
+            //   IndCount++;
+            if((Cells(sheetMAIN, 3 + i, 18) != 0))
               IndCount++;
-
           }
 
         //main stat calculations of Prototype tab
@@ -793,7 +803,7 @@ const RightTrans = (reqdata, sheet, Industry, Discr, i, Year) => {
   }
   
   for(j=0; j<34; j++) {
-    if((!isNaN(Cells(sheet, i, 9+j))) == true && (parseInt(Cells(sheet, i, 9+j)) != 0) && (Cells(sheet, i, 9+j) != '')) {
+    if((!isNaN(Cells(sheet, i, 9+j))) == true && (parseInt(Cells(sheet, i, 9+j)) != 0)  ) {
       E = 1;
     }
   }

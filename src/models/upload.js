@@ -16,7 +16,7 @@ export const createTable = (rows, callback) => {
 	}
 
 	rows.unshift(headerRow);
-
+	// console.log(rows.length);
 	insertData(rows, () => {
 		callback();
 	});
@@ -31,7 +31,6 @@ const insertData = (rows, callback) => {
   let row = rows.shift();
 
 	row = convertRow(row);
-
 	isExistRow(row[43], (id) => {
 		if(id == -1) {
 			runSqlInsert(row, () => {
@@ -195,11 +194,11 @@ const isExistRow = (transactionId, callback) => {
 				return;
 			}
 
-			if(results.length == 0)
+			if(results.length == 0){
 				callback(-1);
-			else
+			} else {
 				callback(results[0].id);
-
+			}
       connection.release();
 
     });
