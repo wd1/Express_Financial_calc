@@ -1,3 +1,8 @@
+.error_class {
+    border:1px red solid !important;
+    color:red;
+}
+
 .fs_10 {
     font-size: 11px!important;
     line-height: 12px!important
@@ -1727,7 +1732,7 @@
 }
 
 .drop_down_head:after {
-    content: "\f107";
+    /* content: "\f107"; */
     font-family: FontAwesome;
     background: #fff;
     z-index: 3;
@@ -2122,7 +2127,7 @@
 .scrolly_box {
     display: block;
     overflow: hidden;
-    overflow-y: auto;
+    /* overflow-y: auto; */
     height: 100%
 }
 
@@ -2385,3 +2390,4 @@ ul.success, ul.error {
     left: -9999px;
   }
 }
+

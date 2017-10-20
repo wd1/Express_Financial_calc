@@ -2,7 +2,17 @@ extends ../layout
 
 block content
   script.
+    function condition_check() {
+      if(($("#ind_count").text() != "") && ($("#ind_count").text() != "(0)")  && ($("#year_count").text() != "(0)")) {
+        
+        form1.submit();
+      } else {
+        $("#tabe_filters_apply").prop('disabled', true);
+      }
+    }
     $(function() {
+      //- console.log(document.getElementsByClassName("scrolly_box")[0]);
+      //- document.getElementsByClassName("scrolly_box")[0].style.height = (window.innerHeight - 150) +"px";
       var financial_flag = false, not_financial_flag = false;
       var checkedids = '#{checkedids}';
       
@@ -25,17 +35,77 @@ block content
           }
         }
         $('#preliminary').attr('checked', '#{preliminary}'=='true');
+        if('#{year1}' == '2015') {
+          $('#idyear2015').attr('checked', true);
+          if ('#{year2}' == '2016') {
+            $('#idyear2016').attr('checked', true);
+          } else {
+            $('#idyear2016').attr('checked', false);
+          }
+        } else {
+          $('#idyear2015').attr('checked', false);
+          if('#{year1}' == '2016') {
+            $('#idyear2016').attr('checked', true);
+          } else {
+            $('#idyear2016').attr('checked', false);
+          }
+        }
+        
       }
       $('#id18').val('#{keyword1}');
       $('#id19').val('#{keyword2}');
-      //
-      
+      $('#id18').change(function() {
+        var temp_str = "";
+        if($('#id18').val() !="") {
+          temp_str = $('#id18').val()
+          if($('#id19').val() !="") {
+            temp_str += ","+$('#id19').val() 
+          }
+        } else {
+          if($('#id19').val() !="") {
+            temp_str +=$('#id19').val() 
+          }
+        }
+        $("#keyword_text_head").text(temp_str);
+        if(temp_str == "")
+          $("#keyword_text_head").text("Keyword");
+      });
+      $('#id19').change(function() {
+        var temp_str = "";
+        if($('#id18').val() !="") {
+          temp_str = $('#id18').val()
+          if($('#id19').val() !="") {
+            temp_str += ","+$('#id19').val() 
+          }
+        } else {
+          if($('#id19').val() !="") {
+            temp_str +=$('#id19').val() 
+          }
+        }
+        $("#keyword_text_head").text(temp_str);
+        if(temp_str == "")
+          $("#keyword_text_head").text("Keyword");
+      });
+      $("#tabe_filters_apply").click(function(e) {
+        var num = $("#ind_count").text().split('(')[1].split(')')[0];
+        //- alert(num);
+        if(num=='0') {
+          $("#select_text_div").addClass("error_class");
+          $("#select_text").text("Please select at least \none industry");
+          $("#ind_count").text("");
+          $("#tabe_filters_apply").prop('disabled', true);
+          return;
+        }
+        //- alert(num);
+        //- $("#form1").submit();
+      });
       $('.popupBody input[type=checkbox]').change(function() {
         console.log('ssss');
         checkHandler1(this);
         getCheckedIDs1();
       });
 
+      
       function updateIntangible() {
         console.log(not_financial_flag +"," + financial_flag);
         if((not_financial_flag == true) && (financial_flag == true)) {
@@ -223,14 +293,17 @@ block content
         } else {
           $("#intangible_list").html(``);
           $('#ex_intangible_list').html(``);
+          
         }
         $('.drop_down_box input[type=checkbox]').change(function() {
-          console.log('sdfsdf');
           checkHandler(this);
           getCheckedIDs();
         });
       }
-
+      $('.drop_down_box input[type=checkbox]').change(function() {
+          checkHandler(this);
+          getCheckedIDs();
+        });
       function getCheckedIDs1() {
         var checklist = $("#sector1 > .popupBody").find('input[type=checkbox]:checked');
         if($("#sector2 > .popupBody").find('input[type=checkbox]:checked').length>0){
@@ -282,22 +355,73 @@ block content
       }
 
       function checkHandler1(element) {
+        $("#select_text_div").removeClass("error_class");
+        $("#tabe_filters_apply").prop('disabled', false);
         var ch_numb = 0;
         ch_numb = $("#sector1 > .popupBody").find('input[type=checkbox]:checked').length +
                   $("#sector2 > .popupBody").find('input[type=checkbox]:checked').length +
                   $("#sector3 > .popupBody").find('input[type=checkbox]:checked').length +
                   $("#sector4 > .popupBody").find('input[type=checkbox]:checked').length;
+        var str_temp = "";
+        var arr_sector1 = $("#sector1 > .popupBody").find('input[type=checkbox]:checked');
+        for(var i=0; i<arr_sector1.length; i++) {
+          //- console.log(arr_sector1[i].value);
+          str_temp += arr_sector1[i].value +",";
+        }
+        arr_sector1 = $("#sector2 > .popupBody").find('input[type=checkbox]:checked');
+        for(var i=0; i<arr_sector1.length; i++) {
+          //- console.log(arr_sector1[i].value);
+          str_temp += arr_sector1[i].value +",";
+        }
+        arr_sector1 = $("#sector3 > .popupBody").find('input[type=checkbox]:checked');
+        for(var i=0; i<arr_sector1.length; i++) {
+          //- console.log(arr_sector1[i].value);
+          str_temp += arr_sector1[i].value +",";
+        }
+        arr_sector1 = $("#sector4 > .popupBody").find('input[type=checkbox]:checked');
+        for(var i=0; i<arr_sector1.length; i++) {
+          //- console.log(arr_sector1[i].value);
+          str_temp += arr_sector1[i].value +",";
+        }
+        $("#select_text").text(str_temp);
+        
         $("#ind_count").text("("+ch_numb+")");
+        if(str_temp =="") 
+        {
+          $("#select_text_div").addClass("error_class")
+          $("#select_text").text("Please select at least one industry");
+          $("#ind_count").text("");
+          $("#tabe_filters_apply").prop('disabled', true);
+        }
         //- var dropboxid = $(element).parents().closest('.drop_down_box').attr('id');
         
       }
 
       function checkHandler(element) {
+        $(element).parents().closest('.drop_down_box').removeClass("error_class");
+        $("#tabe_filters_apply").prop('disabled', false);
         var ch_numb = 0;
         ch_numb = $(element).parent().parent().find('input[type=checkbox]:checked').length;
-
+        var str_temp = "";
+        var arr_sector1 = $(element).parent().parent().find('input[type=checkbox]:checked');
+        for(var i=0; i<arr_sector1.length; i++) {
+          //- console.log(arr_sector1[i].value);
+          str_temp += arr_sector1[i].value +",";
+        }
+        
+        str_temp = str_temp.substring(0, str_temp.length-1);
+        
+        $(element).parents().closest('.drop_down_box').find('.drop_down_head label').text(str_temp);
         $(element).parents().closest('.drop_down_box').find('.drop_down_head span').text("("+ch_numb+")");
-
+        if(str_temp == "") {
+          console.log($(element).parents().closest('.drop_down_box').parent().find(".label_top").text());
+          $(element).parents().closest('.drop_down_box').find('.drop_down_head label').text($(element).parents().closest('.drop_down_box').parent().find(".label_top").text());
+          if($(element).parents().closest('.drop_down_box').parent().find(".label_top").text() == "Years") {
+            $(element).parents().closest('.drop_down_box').find('.drop_down_head label').text("Please select at least one year");
+            $(element).parents().closest('.drop_down_box').addClass("error_class");
+            $("#tabe_filters_apply").prop('disabled', true);
+          }
+        }
         var dropboxid = $(element).parents().closest('.drop_down_box').attr('id');
         if(dropboxid == 'singleselect') {
           if(ch_numb == 1)
@@ -311,7 +435,7 @@ block content
             enableUnchecked(element);
         }
       }
-
+      
       function disableUnchecked(div) {
         var uncheckedList = $(div).parent().parent().find('input[type=checkbox]:not(:checked)');
         for(var i=0; i<uncheckedList.length; i++) {
@@ -510,16 +634,16 @@ block content
             div
               label.label_top(for='') Select Industries
               .drop_down_box#threeselect(href='#modal')
-                .drop_down_head
+                #select_text_div.drop_down_head
                   div
-                    label Select Industries
+                    label#select_text(style="white-space: pre-wrap;") Select Industries
                     span#ind_count.ch_numb (0)
-            div
-              label.label_top(for='') Keyword
+            div#keyword_text_div
+              label#keyword_text.label_top(for='') Keyword
               .drop_down_box
                 .drop_down_head
                   div
-                    label Keyword
+                    label#keyword_text_head Keyword
                 .drop_down_body
                   ul.radio_checkbox_container
                     li
@@ -534,7 +658,7 @@ block content
               .drop_down_box
                 .drop_down_head
                   div
-                    label Intangibles to Include
+                    label(style="white-space: pre-wrap;") Intangibles to Include
                     span.ch_numb (0)
                 .drop_down_body
                   ul#intangible_list.radio_checkbox_container
@@ -542,11 +666,12 @@ block content
                     //-   input#id26(type='checkbox', name='include[]', value='NA')
                     //-   label(for='id26') NA
             div
+              label.label_top(for='include') Intangibles to Exclude
 
               .drop_down_box#singleselect1
                 .drop_down_head
                   div
-                    label Intangibles to Exclude
+                    label(style="white-space: pre-wrap;") Intangibles to Exclude
                     span.ch_numb (0)
                 .drop_down_body
                   ul#ex_intangible_list.radio_checkbox_container
@@ -555,15 +680,15 @@ block content
               .drop_down_box
                 .drop_down_head
                   div
-                    label Years
-                    span.ch_numb (0)
+                    label(style="white-space: pre-wrap;") 2015,2016
+                    span#year_count.ch_numb (2)
                 .drop_down_body
                   ul.radio_checkbox_container
                     li
-                      input#idyear2015(type='checkbox', name='year[]', value='15')
+                      input#idyear2015(type='checkbox', name='year[]', value='2015', checked='true')
                       label(for='idyear2015') 2015
                     li
-                      input#idyear2016(type='checkbox', name='year[]', value='16')
+                      input#idyear2016(type='checkbox', name='year[]', value='2016', checked='true')
                       label(for='idyear2016') 2016
             div
               input#preliminary(type='checkbox', name='preliminary', value='preliminary', checked='true')
@@ -574,7 +699,7 @@ block content
                   Please select industries,  intangible assets to include and/or exclude, and keywords.
 
               .form_footer_btns
-                button#tabe_filters_apply(type='submit') Go
+                button#tabe_filters_apply(type="button" onclick="condition_check()") Go
         
         // RESPONSIVE TABLE
         .responsive_table.tabs.mobile_table(style='min-height: 338px;')
@@ -673,7 +798,11 @@ block content
                     div(style='width: 33.3333%;') #{tabledata['15_5'] ? tabledata['15_5'] : 0}
                     div(style='width: 33.3333%;') #{tabledata['15_7'] ? tabledata['15_7'] : 0}
                   .tab_3(style='width: 100%; display: none;')
-                    div(style='width: 100%;') Indefinite
+                    div(style='width: 100%;') na
+                    //- div(style='width: 25%;') #{tabledata['15_20'] ? tabledata['15_20'] : 0}
+                    //- div(style='width: 25%;') #{tabledata['15_21'] ? tabledata['15_21'] : 0}
+                    //- div(style='width: 25%;') #{tabledata['15_22'] ? tabledata['15_22'] : 0}
+                    //- div(style='width: 25%;') #{tabledata['15_23'] ? tabledata['15_23'] : 0}
                   .tab_2(style='width: 100%; display: none;')
                     div(style='width: 25%;') #{tabledata['15_14'] ? tabledata['15_14'] : 0}
                     div(style='width: 25%;') #{tabledata['15_15'] ? tabledata['15_15'] : 0}

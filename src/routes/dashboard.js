@@ -23,7 +23,7 @@ router.post('/', (req, res) => {
   let reqdata = req.body;
   console.log(reqdata);
   if(!reqdata.industries) {
-    res.render('dashboard/index', { title: 'Result', result_count: 0, checkedids1: reqdata.checkedids1, checkedids: reqdata.checkedids, keyword1: reqdata.keyword[0], keyword2: reqdata.keyword[1], preliminary: reqdata.preliminary? true:false});
+    res.render('dashboard/index', { title: 'Result', result_count: 0, checkedids1: reqdata.checkedids1, checkedids: reqdata.checkedids, keyword1: reqdata.keyword[0], keyword2: reqdata.keyword[1], preliminary: reqdata.preliminary? true:false, year1: reqdata.year[0], year2: reqdata.year[1]});
   } else {
     let data = Object.assign({}, reqdata);
     data.firstname = req.user.firstname;
@@ -120,21 +120,21 @@ router.post('/', (req, res) => {
           Year = Year.substring(Year.length-2, Year.length);
           //this if-statement to count total industr observations
           
-          if(compareIndustries(Industry,selected_industries)) {
-            // if(Cells(sheetMAIN, 3 + i, 13) != 'na' && Cells(sheetMAIN, 3 + i, 18) != 0)
-            //   GW++;
-            // if(Cells(sheetMAIN, 3 + i, 12) != 'na')
-            //   CC++;
-            // if(Cells(sheetMAIN, 3 + i, 14) != 'na')
-            //   INV++;
-            // if(Cells(sheetMAIN, 3 + i, 15) != 'na')
-            //   PPE++;
-            if(Cells(sheetMAIN, 3 + i, 18) !=0 ) {
+          if(compareIndustries(Industry,selected_industries) || compareIndustries("ALL", selected_industries)) {
+            if(Cells(sheetMAIN, 3 + i, 13) != 'na' && Cells(sheetMAIN, 3 + i, 18) != 0)
               GW++;
+            if(Cells(sheetMAIN, 3 + i, 12) != 'na' && Cells(sheetMAIN, 3 + i, 18) != 0)
               CC++;
+            if(Cells(sheetMAIN, 3 + i, 14) != 'na')
               INV++;
+            if(Cells(sheetMAIN, 3 + i, 15) != 'na')
               PPE++;
-            }
+            // if(Cells(sheetMAIN, 3 + i, 18) !=0 ) {
+            //   GW++;
+            //   CC++;
+            //   INV++;
+            //   PPE++;
+            // }
           }
 
           //starting main goodwill and contingent consideration stat calculations
@@ -260,10 +260,10 @@ router.post('/', (req, res) => {
         //counting total industry observations
           if(compareIndustries(Industry,selected_industries)) {
 
-            // if((Cells(sheetMAIN, 3 + i, 17) == Asset) || (Cells(sheetMAIN, 3 + i, 21) == Asset) || (Cells(sheetMAIN, 3 + i, 25) == Asset) || (Cells(sheetMAIN, 3 + i, 29) == Asset) || (Cells(sheetMAIN, 3 + i, 33) == Asset) || (Cells(sheetMAIN, 3 + i, 37) == Asset) )
-            //   IndCount++;
-            if((Cells(sheetMAIN, 3 + i, 18) != 0))
+            if((Cells(sheetMAIN, 3 + i, 17) == Asset) || (Cells(sheetMAIN, 3 + i, 21) == Asset) || (Cells(sheetMAIN, 3 + i, 25) == Asset) || (Cells(sheetMAIN, 3 + i, 29) == Asset) || (Cells(sheetMAIN, 3 + i, 33) == Asset) || (Cells(sheetMAIN, 3 + i, 37) == Asset) )
               IndCount++;
+            // if((Cells(sheetMAIN, 3 + i, 18) != 0))
+            //   IndCount++;
           }
 
         //main stat calculations of Prototype tab
@@ -608,7 +608,7 @@ router.post('/', (req, res) => {
         }
       }
       console.log({ title: 'Result', result_count: result_count,tabledata: sheet, checkedids1: reqdata.checkedids1, checkedids: reqdata.checkedids, keyword1: reqdata.keyword[0], keyword2: reqdata.keyword[1] });
-      res.render('dashboard/index', { title: 'Result', result_count: result_count, tabledata: sheet, checkedids1: reqdata.checkedids1, checkedids: reqdata.checkedids, keyword1: reqdata.keyword[0], keyword2: reqdata.keyword[1], preliminary: reqdata.preliminary? true:false});
+      res.render('dashboard/index', { title: 'Result', result_count: result_count, tabledata: sheet, checkedids1: reqdata.checkedids1, checkedids: reqdata.checkedids, keyword1: reqdata.keyword[0], keyword2: reqdata.keyword[1], preliminary: reqdata.preliminary? true:false, year1: reqdata.year[0], year2: reqdata.year[1]});
 
     });
   }
@@ -727,8 +727,11 @@ const RightTrans = (reqdata, sheet, Industry, Discr, i, Year) => {
   }
 
   if(reqdata.year) {
-    Year1 = reqdata.year[0];
-    Year2 = reqdata.year[1];
+    Year1 = reqdata.year[0].substring(2,4);
+    if(reqdata.year.length > 1)
+      Year2 = reqdata.year[1].substring(2,4);
+    else
+      Year2 = '';
   }
   
   retRightTrans = 0;

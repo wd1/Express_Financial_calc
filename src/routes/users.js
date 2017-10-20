@@ -68,13 +68,13 @@ router.post('/signup', function(req, res) {
 
         } else {
           createUser(newUser, (results, temporaryToken) => {
-
+            console.log(email);
             var emailOptions = {
               from: emailConfig.serviceName + ' <'+ emailConfig.serviceEmail +'>',
               to: email,
               subject: domainConfig + ' Activation Link',
               text: 'Hello '+firstname+',Thank you for your registering at '+ domainConfig +'. Please click on the link to complete your activation: '+domainConfig+'/activate/'+temporaryToken,
-              html: 'Hello <strong>'+firstname+'</strong>,<br><br>Thank you for your registering at '+ domainConfig +'. Please click on the link to complete your activation: <br><br><a href="'+domainConfig+'activate/'+temporaryToken+'">'+domainConfig+'activate</a>'
+              html: 'Hello <strong>'+firstname+'</strong>,<br><br>Thank you for your registering at '+ domainConfig +'. Please click on the link to complete your activation: <br><br><a href="'+domainConfig+'/activate/'+temporaryToken+'">'+domainConfig+'/activate</a>'
             }
 
             mailTransporter.sendMail(emailOptions, (error, info) => {
